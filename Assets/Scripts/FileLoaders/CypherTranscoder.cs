@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-
+using UnityEngine;
 public struct ctFileType
 {
     public string fileExt;
@@ -56,6 +56,7 @@ public class CypherTranscoder
     public byte[] Transcode(string name)
     {
         byte[] bytes = File.ReadAllBytes(name);
+        Debug.Log($"{name}-len: {bytes.Length}");
         for (int i = 0; i < bytes.Length; i += 4)
         {
             byte[] cypherBytes = BitConverter.GetBytes(cypher);

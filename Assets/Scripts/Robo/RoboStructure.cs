@@ -4,6 +4,8 @@ using UnityEngine;
 using System.IO;
 using Assets;
 using System.Linq;
+using System;
+
 public delegate void Update_Event();
 public class RoboStructure : MonoBehaviour
 {
@@ -137,7 +139,7 @@ public class RoboStructure : MonoBehaviour
                     parts[i].layer = 7;
                 }
             }
-            catch { }
+            catch (Exception e) { Debug.LogException(e); }
         }
     }
 
@@ -179,8 +181,9 @@ public class RoboStructure : MonoBehaviour
                             {
                                 mat.mainTexture = Helper.LoadTexture(Path.Combine(Modelpath, textures[0].FilePath));
                             }
-                            catch
+                            catch(Exception  e) 
                             {
+                                Debug.LogException(e);
                             }
                         }
                     }
@@ -192,8 +195,9 @@ public class RoboStructure : MonoBehaviour
                 //part.AddComponent<MeshCollider>().sharedMesh = mesh; 
                 GO.AddComponent<MeshRenderer>().materials = materials;
             }
-            catch
+            catch(Exception ex)
             {
+                Debug.LogException(ex);
             }
         }
     }
@@ -211,50 +215,56 @@ public class RoboStructure : MonoBehaviour
                 byte[] data = transcoder.Transcode(file);
                 MemoryStream ms = new MemoryStream(data);
                 var scen = Importer.ImportFileFromStream(ms, Helper.PostProcessStepflags, "x");
-
-                Mesh mesh = new Mesh();
-                mesh.CombineMeshes(scen.Meshes.Select(x => new CombineInstance()
+                if (scen != null&&scen.Meshes!=null)
                 {
-                    mesh = x.ToUnityMesh(),
-                    transform = scen.RootNode.Transform.ToUnityMatrix()
-                }).ToArray(), false);
 
-                Material[] materials = new Material[scen.Meshes.Length];
-
-                for (int index = 0; index < materials.Length; index++)
-                {
-                    var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-
-                    if (scen.Materials[scen.Meshes[index].MaterialIndex] != null)
+                    Mesh mesh = new Mesh();
+                    mesh.CombineMeshes(scen.Meshes.Select(x => new CombineInstance()
                     {
-                        mat.name = scen.Materials[scen.Meshes[index].MaterialIndex].Name;
-                        var textures = scen.Materials[scen.Meshes[index].MaterialIndex].GetAllTextures();
-                        var color = scen.Materials[scen.Meshes[index].MaterialIndex].ColorDiffuse;
-                        mat.color = new Color(color.R, color.G, color.B, color.A);
-                        mat.SetFloat("_Glossiness", scen.Materials[scen.Meshes[index].MaterialIndex].ShininessStrength);
+                        mesh = x.ToUnityMesh(),
+                        transform = scen.RootNode.Transform.ToUnityMatrix()
+                    }).ToArray(), false);
 
+                    Material[] materials = new Material[scen.Meshes.Length];
 
-                        if (textures.Length > 0 && File.Exists(Path.Combine(Modelpath, textures[0].FilePath)))
+                    for (int index = 0; index < materials.Length; index++)
+                    {
+                        var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+
+                        if (scen.Materials[scen.Meshes[index].MaterialIndex] != null)
                         {
-                            try
+                            mat.name = scen.Materials[scen.Meshes[index].MaterialIndex].Name;
+                            var textures = scen.Materials[scen.Meshes[index].MaterialIndex].GetAllTextures();
+                            var color = scen.Materials[scen.Meshes[index].MaterialIndex].ColorDiffuse;
+                            mat.color = new Color(color.R, color.G, color.B, color.A);
+                            mat.SetFloat("_Glossiness", scen.Materials[scen.Meshes[index].MaterialIndex].ShininessStrength);
+
+
+                            if (textures.Length > 0 && File.Exists(Path.Combine(Modelpath, textures[0].FilePath)))
                             {
-                                mat.mainTexture = Helper.LoadTextureEncrypted(Path.Combine(Modelpath, textures[0].FilePath), ref transcoder);
-                            }
-                            catch
-                            {
+                                try
+                                {
+                                    mat.mainTexture = Helper.LoadTextureEncrypted(Path.Combine(Modelpath, textures[0].FilePath), ref transcoder);
+                                }
+                                catch (Exception e)
+                                {
+                                    Debug.LogException(e);
+                                }
                             }
                         }
+
+                        materials[index] = mat;
                     }
 
-                    materials[index] = mat;
+                    GO.AddComponent<MeshFilter>().mesh = mesh;
+                    //part.AddComponent<MeshCollider>().sharedMesh = mesh; 
+                    GO.AddComponent<MeshRenderer>().materials = materials;
                 }
-
-                GO.AddComponent<MeshFilter>().mesh = mesh;
-                //part.AddComponent<MeshCollider>().sharedMesh = mesh; 
-                GO.AddComponent<MeshRenderer>().materials = materials;
             }
-            catch
+            catch (Exception e)
             {
+                Debug.LogWarning(file + "LoadFail");
+                Debug.LogException(e);
             }
         }
     }
@@ -278,8 +288,10 @@ public class RoboStructure : MonoBehaviour
 
                 return mesh;
             }
-            catch
+            catch(Exception e)
             {
+                Debug.LogError(file+"LoadFail");
+                Debug.LogException(e);
             }
         }
         return null;

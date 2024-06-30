@@ -56,8 +56,10 @@ public class ani2
             hodfile.loadFromBinary(ref br);
             structure = hodfile.convertToHod2v0();
             windomAnimation aData = new windomAnimation();
-            aData.frames = new List<hod2v1>();
-            aData.frames.Add(hodfile.convertToHod2v1());
+            aData.frames = new List<hod2v1>
+            {
+                hodfile.convertToHod2v1()
+            };
             aData.scripts = new List<script>();
             animations.Add(aData);
         }

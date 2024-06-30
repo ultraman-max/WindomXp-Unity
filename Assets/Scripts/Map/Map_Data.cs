@@ -6,6 +6,7 @@ using Assimp.Configs;
 using Assets;
 using System.Linq;
 using UnityDds;
+using System;
 
 public struct PieceData
 {
@@ -327,8 +328,9 @@ public class Map_Data : MonoBehaviour
 								else
 									mat.mainTexture = Helper.LoadTexture(f.FullName);
 							}
-							catch
+							catch(Exception e)
 							{
+								Debug.LogException(e);
 							}
 						}
 					}
@@ -340,8 +342,9 @@ public class Map_Data : MonoBehaviour
 				//part.AddComponent<MeshCollider>().sharedMesh = mesh; 
 				GO.AddComponent<MeshRenderer>().materials = materials;
 			}
-			catch
+			catch( Exception e )
 			{
+				Debug.LogException(e);
 			}
 		}
 	}
@@ -390,8 +393,9 @@ public class Map_Data : MonoBehaviour
 								else
 									mat.mainTexture = Helper.LoadTexture(f.FullName);
 							}
-							catch
+							catch(Exception e)
 							{
+								Debug.LogException(e);
 							}
 						}
 					}
@@ -399,8 +403,9 @@ public class Map_Data : MonoBehaviour
 					materials[index] = mat;
 				}
 			}
-			catch
+			catch(Exception e)
 			{
+				Debug.LogException(e);
 			}
 		}
 		else
@@ -426,8 +431,9 @@ public class Map_Data : MonoBehaviour
 
 				return mesh;
 			}
-			catch
+			catch(Exception e)
 			{
+				Debug.LogException(e);
 			}
 		}
 		return null;

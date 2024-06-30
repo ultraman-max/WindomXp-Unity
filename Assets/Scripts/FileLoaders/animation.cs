@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -27,8 +28,9 @@ public class windomAnimation
         {
             name = USEncoder.ToEncoding.ToUnicode(br.ReadBytes(256)).TrimEnd('\0');
         }
-        catch
+        catch(Exception e)
         {
+            Debug.LogError(e);
             br.BaseStream.Seek(position + 256, SeekOrigin.Begin);
         }
 

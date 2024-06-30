@@ -14,7 +14,8 @@ public class UI_SelectScreen : MonoBehaviour
     public GameObject[] items2 = new GameObject[9];
     public int index = 0;
     public int index2 = 0;
-    public int dirCount;
+    public int roboDirCount;
+    public int mapDirCount;
     Vector2 aPos;
     Vector2 tPos;
     float time = 0;
@@ -41,7 +42,8 @@ public class UI_SelectScreen : MonoBehaviour
         rectTransform = mechaRect;
         aPos = rectTransform.anchoredPosition;
         DirectoryInfo di = new DirectoryInfo(MechaFolder);
-        dirCount = di.GetDirectories().Length;
+        roboDirCount = di.GetDirectories().Length;
+        mapDirCount = new DirectoryInfo(MapFolder).GetDirectories().Length;
         input.Menu.Move.performed += ctx => {
             Vector2 v = ctx.ReadValue<Vector2>();
             Debug.Log(v);
@@ -50,14 +52,14 @@ public class UI_SelectScreen : MonoBehaviour
                 if (RoboSelect)
                 {
                     index++;
-                    if (index == dirCount)
+                    if (index == roboDirCount)
                         index = 0;
                     tPos = aPos + new Vector2(-transitionValue, 0);
                 }
                 else
                 {
                     index2++;
-                    if (index2 == dirCount)
+                    if (index2 == mapDirCount)
                         index2 = 0;
                     tPos = aPos + new Vector2(-transitionValue2, 0);
                 }
@@ -71,14 +73,14 @@ public class UI_SelectScreen : MonoBehaviour
                 {
                     index--;
                     if (index == -1)
-                        index = dirCount - 1;
+                        index = roboDirCount - 1;
                     tPos = aPos + new Vector2(transitionValue, 0);
                 }
                 else
                 {
                     index2--;
                     if (index2 == -1)
-                        index2 = dirCount - 1;
+                        index2 = mapDirCount - 1;
                     tPos = aPos + new Vector2(transitionValue2, 0);
                 }
                 transition = true;
@@ -132,6 +134,7 @@ public class UI_SelectScreen : MonoBehaviour
             }
             DirectoryInfo di = new DirectoryInfo(MechaFolder);
             DirectoryInfo[] dirs = di.GetDirectories();
+            
             for (int i = 0; i < 9; i++)
             {
                 int pos = (i - 4) + index;
@@ -167,8 +170,6 @@ public class UI_SelectScreen : MonoBehaviour
             }
             DirectoryInfo di = new DirectoryInfo(MapFolder);
             DirectoryInfo[] dirs = di.GetDirectories();
-            Texture2D tex;
-            Sprite st;
             for (int i = 0; i < 9; i++)
             {
                 int pos = (i - 4) + index2;
@@ -179,17 +180,17 @@ public class UI_SelectScreen : MonoBehaviour
 
                 items2[i] = GameObject.Instantiate(Template2);
                 robo.transcoder.findCypher(Path.Combine(dirs[pos].FullName, "SelectImage.png"));
-                tex = Helper.LoadTextureEncrypted(Path.Combine(dirs[pos].FullName, "SelectImage.png"), ref robo.transcoder);
-                st = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
+                Texture2D tmpTex = Helper.LoadTextureEncrypted(Path.Combine(dirs[pos].FullName, "SelectImage.png"), ref robo.transcoder);
+                Sprite st = Sprite.Create(tmpTex, new Rect(0, 0, tmpTex.width, tmpTex.height), new Vector2(0, 0));
 
                 items2[i].GetComponent<Image>().sprite = st;
                 items2[i].GetComponent<Image>().type = Image.Type.Filled;
                 items2[i].SetActive(true);
                 items2[i].transform.SetParent(Template2.transform.parent);
             }
-            tex = Helper.LoadTextureEncrypted(Path.Combine(dirs[index2].FullName, "SelectImage.png"), ref robo.transcoder);
-            st = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
-            mapImage.sprite = st;
+
+            Texture2D tex = Helper.LoadTextureEncrypted(Path.Combine(dirs[index2].FullName, "SelectImage.png"), ref robo.transcoder);
+            mapImage.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0, 0));
         }
     }
 
