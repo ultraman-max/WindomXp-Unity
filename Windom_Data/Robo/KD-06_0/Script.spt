@@ -1,0 +1,117 @@
+@99 = 999999999.0;	'STOP
+Name=Windom 2000;
+NameEng=Windom-2K;
+HP=1250;
+Generator=1400;
+Energy=900;
+Score=1000;
+RestBody=3;
+LockDist=90;
+
+'AI設定
+AISetting(60, 40);	'戦闘重視モード(0[近接]～100[遠距離],標準間合い
+'AI用武器設定
+AIWeaponSetting(0,  10, 100, 50,  500); 'ショット(0),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(1,  1,   8, 50,  500); '近接,使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(2,  15, 100, 30,  500); 'サブ１(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(3,  25, 100, 40,  500); 'サブ２(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(4,  22, 100, 20,  500); 'サブ３(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+
+Shader(0,		1,   0.6,0,0,0,0,0,0,0,0,0);
+Shader(1,		1,   0.6,0,0,0,0,0,0,0,0,0);
+Shader(2,		1,   0.6,0,0,0,0,0,0,0,0,0);
+Shader(3,		1,   0.6,0,0,0,0,0,0,0,0,0);
+Shader(4,		1,   0.6,0,0,0,0,0,0,0,0,0);
+Shader(5,		1,   0.6,0,0,0,0,0,0,0,0,0);
+Shader(6,		1,   0.6,0,0,0,0,0,0,0,0,0);
+Shader(7,		1,   0.6,0,0,0,0,0,0,0,0,0);
+Shader(8,		1,   0.6,0,0,0,0,0,0,0,0,0);
+Shader(9,		1,   0.6,0,0,0,0,0,0,0,0,0);
+
+'カラー１
+COLORSET(1,3, 1.000000,0.000000,0.058824,0.192157);
+'カラー２
+COLORSET(2,3, 1.000000,0.298039,0.000000,0.000000);
+'カラー３
+COLORSET(3,3, 1.000000,0.184314,0.168627,0.000000);
+'カラー4
+COLORSET(4,1, 1.000000,0.000000,0.000000,0.545098);
+COLORSET(4,2, 1.000000,1.000000,1.000000,1.000000);
+COLORSET(4,3, 1.000000,0.988235,0.988235,1.000000);
+'カラー5
+COLORSET(5,1, 1.000000,0.231373,0.000000,0.000000);
+COLORSET(5,2, 1.000000,0.027451,0.027451,0.035294);
+COLORSET(5,3, 1.000000,0.133333,0.129412,0.129412);
+'カラー6
+COLORSET(6,1, 1.000000,0.066667,0.062745,0.058824);
+COLORSET(6,2, 1.000000,1.000000,1.000000,1.000000);
+COLORSET(6,3, 1.000000,0.749020,0.000000,0.070588);
+'カラー7
+COLORSET(7,1, 1.000000,0.196078,0.000000,0.364706);
+COLORSET(7,2, 1.000000,0.368627,0.207843,0.521569);
+COLORSET(7,3, 1.000000,0.000000,0.231373,0.360784);
+'カラー8
+COLORSET(8,1, 1.000000,0.156863,0.000000,0.000000);
+COLORSET(8,2, 1.000000,1.000000,0.309804,0.929412);
+COLORSET(8,3, 1.000000,0.090196,0.078431,0.074510);
+'カラー9
+COLORSET(9,1, 1.000000,0.000000,0.113725,0.000000);
+COLORSET(9,2, 1.000000,0.000000,0.133333,0.000000);
+COLORSET(9,3, 1.000000,0.000000,0.000000,0.000000);
+COLORSET(9,5, 1.000000,0.211765,0.000000,0.039000);
+
+BURNERSET(0,Output01.x, 1.6, UP);
+BURNERSET(1,Output02.x, 1.8, UP);
+BURNERSET(2,Output03.x, 1.6, UP);
+BURNERSET(3,Output04.x, 1.0, DOWN);
+BURNERSET(4,Output05.x, 1.0, DOWN);
+BURNERSET(5,Output06.x, 0.8, DOWN);
+BURNERSET(6,Output07.x, 0.8, DOWN);
+BURNERSET(7,Output08.x, 0.6, UP);
+BURNERSET(8,Output09.x, 0.6, UP);
+'BURNERSET(9,Output10.x, 1.6, UP);
+'BURNERSET(10,Output11.x, 1.6, UP);
+'BURNERSET(11,Weapon_point9.x, 2, UP);
+'BURNERSET(12,Weapon_point15.x, 2, UP);
+'BURNERSET(13,Weapon_point5.x, 2, UP);
+'BURNERSET(14,Weapon_point11.x, 2, UP);
+
+ATTACKARMSET(0,arm_rotation.x);
+GUNFILENAME(0,Gun.x);
+GUNFILENAME(9,katana_dammy.x);
+SWORDFILENAME(0,katana.x);
+SWORDFILENAME(1,katana2.x);
+SWORDFILENAME(9,Gun_dammy.x);
+
+WEAPONPOINT(0,Weapon_point.x,UP);
+WEAPONPOINT(1,Weapon_point2.x,UP);
+WEAPONPOINT(2,Weapon_point3.x,UP);
+
+WEAPONPOINT(3,Weapon_point4.x,UP);
+'WEAPONPOINT(4,Weapon_point5.x,UP);
+'WEAPONPOINT(5,Weapon_point6.x,UP);
+'WEAPONPOINT(6,Weapon_point7.x,UP);
+'WEAPONPOINT(7,Output10.x,UP);
+'WEAPONPOINT(8,Weapon_point8.x,UP);
+'WEAPONPOINT(9,Weapon_point9.x,UP);
+
+'WEAPONPOINT(10,Weapon_point10.x,UP);
+'WEAPONPOINT(11,Weapon_point11.x,UP);
+'WEAPONPOINT(12,Weapon_point12.x,UP);
+'WEAPONPOINT(13,Weapon_point13.x,UP);
+'WEAPONPOINT(14,Output11.x,UP);
+'WEAPONPOINT(15,Weapon_point14.x,UP);
+'WEAPONPOINT(16,Weapon_point15.x,UP);
+
+WEAPONPOINT(17,Weapon_point16.x,UP);
+WEAPONPOINT(18,Weapon_point_Asi.x,DOWN);
+
+WEAPONPOINT(19,Output01.x,UP);
+WEAPONPOINT(20,Output02.x,UP);
+WEAPONPOINT(21,Output03.x,UP);
+
+LoadXFile(0,Wing_Mini1.x,0);
+
+LoadXFile(1,bomb.x,0);
+LoadXFile(2,Missile2.x,0);
+

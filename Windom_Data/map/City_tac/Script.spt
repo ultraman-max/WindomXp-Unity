@@ -1,0 +1,83 @@
+'MapData
+LoadMapData(MapData3.txt);
+
+LoadHitXFile(Hit.x);
+
+'水
+LoadWaterXFile(Sea.x);
+
+'スカイドーム,フォグ色
+LoadSkyXFile(Sky.x,194,214,240);
+SetLightColor(255,255,255);
+
+'BGM(0～4)
+BgmFileName(0,fuse.ogg);
+
+'ビルデータ
+LoadBuildingXFile(0, Bill00.x,Bill00.x,,);
+LoadBuildingXFile(1, Bill01.x,Bill01.x,Bill01_d.x,Bill01_d.x);
+LoadBuildingXFile(2, Bill02.x,Bill02.x,,);
+LoadBuildingXFile(3, Bill03.x,Bill03.x,Bill03_d.x,Bill03_d.x);
+LoadBuildingXFile(4, Bill04.x,Bill04.x,Bill04_d.x,Bill04_d.x);
+LoadBuildingXFile(5, Bill05.x,Bill05.x,Bill05_d.x,Bill05_d.x);
+LoadBuildingXFile(6, Bill06.x,Bill06.x,Bill06_d.x,Bill06_d.x);
+LoadBuildingXFile(7, Bill07.x,Bill07.x,,);
+
+
+'マップのマテリアル用Xファイル
+LoadMaterialXFile(map00.x);
+'マップのデータ
+LoadMapXFile(0, map00.x, map00hit.x);
+LoadMapXFile(1, map01.x, map01hit.x);
+LoadMapXFile(2, map02.x, map02hit.x);
+LoadMapXFile(3, map03.x, map03hit.x);
+LoadMapXFile(4, map04.x, map04hit.x);
+LoadMapXFile(5, map05.x, map05hit.x);
+LoadMapXFile(6, map06.x, map06hit.x);
+LoadMapXFile(7, map07.x, map07hit.x);
+LoadMapXFile(8, map08.x, map08hit.x);
+LoadMapXFile(9, map09.x, map09hit.x);
+LoadMapXFile(10, map10.x, map10hit.x);
+LoadMapXFile(11, map11.x, map11hit.x);
+LoadMapXFile(12, map12.x, map12hit.x);
+LoadMapXFile(13, map13.x, map13hit.x);
+LoadMapXFile(14, map14.x, map14hit.x);
+LoadMapXFile(15, map15.x, map15hit.x);
+
+LoadMapXFile(16, map00_2.x, NULL);
+
+'MapIndex,XFileNo, 水の高さ
+'MapSetting(0,	0,	-10000);
+MapSettingEx(0,	0,16,-1,-1,-1,-1,-1,-1,-1,-1,	-10000);
+MapSetting(1,	1,	-10000);
+MapSetting(2,	2,	-10000);
+MapSetting(3,	3,	-10000);
+MapSetting(4,	4,	-10000);
+MapSetting(5,	5,	-10000);
+MapSetting(6,	6,	-1);
+MapSetting(7,	7,	-1);
+MapSetting(8,	8,	-1);
+MapSetting(9,	9,	-1);
+MapSetting(10,	10,	-1);
+MapSetting(11,	11,	-1);
+MapSetting(12,	12,	-1);
+MapSetting(13,	13,	-1);
+MapSetting(14,	14,	-1);
+MapSetting(15,	15,	-10000);
+	'			MapNo  No,  BuildXNo 	  Hp      x,            y,          z
+	'マップ0
+	SetBuilding(0,		0,		1,       1500,	8.207660,	0.537087,	21.932104);
+	SetBuilding(0,		1,		7,       1500,	10.056558,			0,	7.749315);
+	'マップ1
+	SetBuilding(1,		0,		4,       1200,	6.783009,0.000000,5.038198);
+	SetBuilding(1,		1,		4,       1200,	6.783009,0.000000,10.654996);
+	SetBuilding(1,		2,		4,       1200,	6.783009,0.000000,16.298431);
+	'マップ2
+	SetBuilding(2,		0,		5,       1200,	22.518372,0.000000,7.458625);
+	SetBuilding(2,		1,		6,       1200,	7.698508,0.000000,7.433309);
+	SetBuilding(2,		2,		4,       1200,	7.639762,0.000000,24.324316);
+	'マップ3
+	SetBuilding(3,		0,		5,       1200,	8.504937,0.000000,21.537233);
+	SetBuilding(3,		1,		3,       1200,	22.498852,0.000000,19.312813);
+	SetBuilding(3,		2,		1,       1200,	5.827061,0.000000,8.813183);
+	SetBuilding(3,		3,		1,       1200,	12.568617,0.000000,8.813183);

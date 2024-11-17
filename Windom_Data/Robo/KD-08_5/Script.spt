@@ -1,0 +1,109 @@
+@99 = 999999999.0;	'STOP
+Name=Linux Ranunculus;
+NameEng=Linux-Ranunculus;
+HP=1900;
+Generator=1050;
+Energy=1100;
+Score=1500;
+RestBody=2;
+LockDist=70;
+
+'AI設定
+AISetting(0, 5);	'戦闘重視モード(0[近接]～100[遠距離],標準間合い
+'AI用武器設定
+AIWeaponSetting(0,  10, 70, 50,  200); 'ショット(0),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(1,  1, 10, 50,  200); '近接,使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(2,  1, 70, 50,  300); 'サブ1(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(3,  10, 70, 40,  300); 'サブ2(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(4,  1, 10, 40,  300); 'サブ3(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+
+Shader(0,		1,   0.6,0,0,0,0,0,0,0,0,0);
+'カラー１
+Shader(1,		1,   0.6,0,0,0,0,0,0,0,0,0);
+COLORSET(1,7, 1.000000,0.843137,0.670588,0.000000);
+COLORSET(1,8, 1.000000,0.066667,0.439216,0.007843);
+'カラー２
+Shader(2,		1,   0.6,0,0,0,0,0,0,0,0,0);
+COLORSET(2,7, 1.000000,0.843137,0.670588,0.000000);
+COLORSET(2,8, 1.000000,0.066667,0.058824,0.854902);
+'カラー３
+Shader(3,		1,   0.6,0,0,0,0,0,0,0,0,0);
+COLORSET(3,7, 1.000000,0.843137,0.670588,0.000000);
+COLORSET(3,8, 1.000000,1.000000,0.000000,0.000000);
+'カラー４
+Shader(4,		1,   0.6,0,0,0,0,0,0,0,0,0);
+COLORSET(4,7, 1.000000,1.000000,1.000000,0.000000);
+COLORSET(4,8, 1.000000,0.290196,0.282353,0.282353);
+'カラー５
+Shader(5,		1,   0.6,0,0,0,0,0,0,0,0,0);
+COLORSET(5,6, 1.000000,0.752941,0.000000,0.000000);
+COLORSET(5,7, 1.000000,1.000000,0.000000,0.000000);
+COLORSET(5,8, 1.000000,0.000000,0.454902,0.000000);
+'カラー６
+Shader(6,		1,   0.6,0,0,0,0,0,0,0,0,0);
+COLORSET(6,3, 1.000000,0.917647,0.752941,0.572549);
+COLORSET(6,4, 1.000000,1.000000,1.000000,1.000000);
+COLORSET(6,6, 1.000000,1.000000,1.000000,1.000000);
+COLORSET(6,7, 1.000000,1.000000,1.000000,0.000000);
+COLORSET(6,8, 1.000000,1.000000,0.403922,1.000000);
+'カラー７
+Shader(7,		1,   0.6,0,0,0,0,0,0,0,0,0);
+COLORSET(7,3, 1.000000,0.917647,0.752941,0.572549);
+COLORSET(7,4, 1.000000,0.290196,0.000000,0.000000);
+COLORSET(7,6, 1.000000,0.360784,0.000000,0.000000);
+COLORSET(7,8, 1.000000,1.000000,1.000000,0.352941);
+'カラー８
+Shader(8,		1,   0.6,0,0,0,0,0,0,0,0,0);
+COLORSET(8,3, 1.000000,0.917647,0.752941,0.572549);
+COLORSET(8,4, 1.000000,0.145098,0.000000,0.000000);
+COLORSET(8,7, 1.000000,0.231373,0.219608,0.215686);
+COLORSET(8,8, 1.000000,0.545098,0.000000,0.000000);
+'カラー９
+Shader(9,		1,   0.6,0,0,0,0,0,0,0,0,0);
+COLORSET(9,3, 1.000000,0.917647,0.752941,0.572549);
+COLORSET(9,4, 1.000000,0.615686,0.607843,0.603922);
+COLORSET(9,7, 1.000000,1.000000,1.000000,1.000000);
+COLORSET(9,8, 1.000000,0.098039,0.094118,0.094118);
+
+BURNERSET(0,Output01.x, 1.2, UP);
+BURNERSET(1,Output02.x, 1.2, UP);
+'BURNERSET(2,Output03.x, 0.4, UP);
+'BURNERSET(3,Output04.x, 0.4, UP);
+'BURNERSET(4,Weapon_point.x, 2.2, UP);
+
+ATTACKARMSET(0,arm_rotation.x);
+ATTACKARMSET(1,arm_rotation_l.x);
+GUNFILENAME(0,normalsword.x);
+GUNFILENAME(9,sword_dammy.x);
+SWORDFILENAME(0,sword.x);
+SWORDFILENAME(9,normalsword_dammy.x);
+
+WEAPONPOINT(0,Weapon_normalsword,UP);
+WEAPONPOINT(1,normalsword.x,UP);
+WEAPONPOINT(2,Weapon_sword,UP);
+WEAPONPOINT(3,Weapon_Leg,UP);
+WEAPONPOINT(4,Weapon_sword2,UP);
+'WEAPONPOINT(5,Weapon_point_LH2.x,UP);
+'WEAPONPOINT(6,Weapon_point_LH3.x,UP);
+'WEAPONPOINT(10,Weapon_point_Back00.x,UP);
+'WEAPONPOINT(11,Weapon_point_Back01.x,UP);
+'WEAPONPOINT(12,Weapon_point_Back02.x,UP);
+'WEAPONPOINT(13,Weapon_point_Back03.x,UP);
+'WEAPONPOINT(14,Weapon_point_Back04.x,UP);
+'WEAPONPOINT(15,Weapon_point_Back05.x,UP);
+'WEAPONPOINT(16,Weapon_point_Back06.x,UP);
+'WEAPONPOINT(17,Weapon_point_Back07.x,UP);
+'WEAPONPOINT(18,Weapon_point_Back08.x,UP);
+'WEAPONPOINT(19,Weapon_point_Back09.x,UP);
+'WEAPONPOINT(20,Weapon_point_dammy.x,DOWN);
+
+WEAPONPOINT(21,Output01.x,DOWN);
+WEAPONPOINT(22,Output02.x,DOWN);
+
+LoadXFile(0,normalsword_throw.x,1);
+LoadXFile(1,normalsword_throw2.x,1);
+LoadXFile(2,sword_throw.x,1);
+LoadXFile(3,sword_throw2.x,1);
+LoadXFile(4,normalsword_throw3.x,1);
+LoadXFile(5,normalsword_throw4.x,1);
+

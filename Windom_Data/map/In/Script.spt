@@ -1,0 +1,35 @@
+'MapData
+LoadMapData(MapData3.txt);
+
+LoadHitXFile(Hit.x);
+
+'水
+'LoadWaterXFile(Sea.x);
+
+'スカイドーム
+LoadSkyXFile(Sky.x,0,0,0);
+SetLightColor(229,229,229);
+
+'BGM(0～4)
+BgmFileName(0,br.ogg);
+
+'ビルデータ
+
+
+'マップのマテリアル用Xファイル
+LoadMaterialXFile(map00.x);
+'マップのデータ
+LoadMapXFile(0, map00.x, map00hit.x);
+LoadMapXFile(1, map01.x, map01hit.x);
+LoadMapXFile(2, map02.x, map02hit.x);
+LoadMapXFile(3, map03.x, map03hit.x);
+LoadMapXFile(4, map04.x, map04hit.x);
+
+LoadMapXFile(5, map00_2.x, map00_2hit.x);
+
+'MapIndex,XFileNo, 水の高さ
+MapSettingEx(0,		0,5,-1,-1,-1,-1,-1,-1,-1,-1,	-10000);
+MapSettingEx(1,		1,5,-1,-1,-1,-1,-1,-1,-1,-1,	-10000);
+MapSetting(2,	2,	-10000);
+MapSetting(3,	3,	-10000);
+MapSetting(4,	4,	-10000);

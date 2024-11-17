@@ -1,0 +1,76 @@
+'MapData
+LoadMapData(MapData3.txt);
+
+LoadHitXFile(Hit.x);
+
+'水
+LoadWaterXFile(Sea.x);
+
+'スカイドーム,フォグ色
+LoadSkyXFile(Sky.x,194,214,240);
+SetLightColor(229,229,229);
+
+'BGM(0～4)
+BgmFileName(0,gg.ogg);
+
+'ビルデータ
+LoadBuildingXFile(0, Bill00.x,Bill00.x,,);
+LoadBuildingXFile(1, Bill01.x,Bill01.x,,);
+LoadBuildingXFile(2, Bill02.x,Bill02.x,,);
+LoadBuildingXFile(3, Bill03.x,Bill03.x,,);
+LoadBuildingXFile(4, Bill04.x,Bill04.x,,);
+LoadBuildingXFile(5, Bill05.x,Bill05.x,,);
+LoadBuildingXFile(6, Bill06.x,Bill06.x,,);
+LoadBuildingXFile(7, Bill07.x,Bill07.x,,);
+LoadBuildingXFile(8, Bill08.x,Bill08.x,,);
+LoadBuildingXFile(9, Bill09.x,Bill09.x,,);
+LoadBuildingXFile(10, Bill10.x,Bill10.x,,);
+LoadBuildingXFile(11, Bill11.x,Bill11.x,,);
+
+
+'マップのマテリアル用Xファイル
+LoadMaterialXFile(map00.x);
+'マップのデータ
+LoadMapXFile(0, map00.x, map00hit.x);
+LoadMapXFile(1, map01.x, map01hit.x);
+
+'MapIndex,XFileNo, 水の高さ
+MapSetting(0,	0,	-10000);
+	'			MapNo  No,  BuildXNo 	  Hp      x,            y,          z
+	'マップ0
+	SetBuilding(0,		0,		6,       1500,	7.544517 , 0.000000 , 7.456281);
+	SetBuilding(0,		1,		5,       1500,	16.690954 , 0.000000 , 7.578227);
+	SetBuilding(0,		2,		3,       1500,	23.739496 , 0.000000 , 8.473435);
+	SetBuilding(0,		3,		1,       1500,	24.434708 , 0.000000 , 20.558054);
+	SetBuilding(0,		4,		7,       1500,	15.327513 , 0.000000 , 23.399317);
+	SetBuilding(0,		5,		4,       1500,	7.362807 , 0.000000 , 14.064689);
+	SetBuilding(0,		6,		0,       1500,	6.451262 , 0.000000 , 18.679663);
+	SetBuilding(0,		7,		0,       1500,	6.451262 , 0.000000 , 22.804928);
+	SetBuilding(0,		8,		2,       1500,	15.664071 , 0.000000 , 16.158382);
+
+MapSetting(1,	0,	-10000);
+	SetBuilding(1,		0,		5,       1500,	7.544517 , 0.000000 , 7.456281);
+	SetBuilding(1,		1,		11,       1500,	24.248592 , 0.000000 , 15.743095);
+	SetBuilding(1,		2,		6,       1500,	22.321085 , 0.000000 , 7.556361);
+	SetBuilding(1,		3,		1,       1500,	24.434708 , 0.000000 , 21.748644);
+	SetBuilding(1,		4,		8,       1500,	15.124078 , 0.000000 , 8.768633);
+	SetBuilding(1,		5,		4,       1500,	7.189934 , 0.000000 , 22.685438);
+	SetBuilding(1,		6,		10,       1500,	16.866737 , 0.000000 , 22.609251);
+	SetBuilding(1,		7,		11,       1500,	24.223682 , 0.000000 , 13.422437);
+	SetBuilding(1,		8,		6,       1500,	7.535710 , 0.000000 , 16.158382);
+	SetBuilding(1,		9,		11,       1500,	19.202288 , 0.000000 , 16.258810);
+
+MapSetting(2,	0,	-10000);
+	SetBuilding(2,		0,		10,       1500,	7.614933 , 0.000000 , 7.412210);
+	SetBuilding(2,		1,		11,       1500,	18.360527 , 0.000000 , 4.511683);
+	SetBuilding(2,		2,		11,       1500,	24.223682 , 0.000000 , 7.695403);
+	SetBuilding(2,		3,		11,       1500,	24.223265 , 0.000000 , 10.965434);
+	SetBuilding(2,		4,		11,       1500,	18.415192 , 0.000000 , 7.695403);
+	SetBuilding(2,		5,		4,       1500,	7.080507 , 0.000000 , 14.515443);
+	SetBuilding(2,		6,		10,       1500,	22.277489 , 0.000000 , 16.224232);
+	SetBuilding(2,		7,		11,       1500,	24.223682 , 0.000000 , 4.495448);
+	SetBuilding(2,		8,		11,       1500,	18.438185 , 0.000000 , 10.965942);
+	SetBuilding(2,		9,		4,       1500,	7.112793 , 0.000000 , 19.712166);
+	SetBuilding(2,		10,		4,       1500,	7.086764 , 0.000000 , 24.556896);
+	SetBuilding(2,		11,		7,       1500,	21.067585 , 0.000000 , 23.524416);
+	SetBuilding(2,		12,		8,       1500,	13.376995 , 0.000000 , 20.994011);

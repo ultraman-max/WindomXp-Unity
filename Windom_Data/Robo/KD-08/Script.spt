@@ -1,0 +1,85 @@
+@99 = 999999999.0;	'STOP
+Name=Linux Iris;
+NameEng=Linux-Iris;
+HP=1500;
+Generator=1600;
+Energy=1500;
+Score=1500;
+RestBody=2;
+LockDist=110;
+
+'AI設定
+AISetting(90, 50);	'戦闘重視モード(0[近接]～100[遠距離],標準間合い
+'AI用武器設定
+AIWeaponSetting(0,  5, 100, 50,  800); 'ショット(0),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(1,  1, 8,   10,  800); '近接,使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(2,  22, 100,30,  800); 'サブ１(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(3,  22, 100,40,  750); 'サブ１(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(4,  22, 100,20,  800); 'サブ１(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+
+Shader(0,		1,   0.8,0,0,0,0,0,0,0,0,0);
+'カラー１
+Shader(1,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(1,2, 1.000000,0.878431,0.000000,0.000000);
+'カラー２
+Shader(2,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(2,2, 1.000000,1.000000,0.310000,0.769000);
+'カラー３
+Shader(3,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(3,2, 1.000000,0.568627,0.568627,0.000000);
+'カラー4
+Shader(4,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(4,0, 1.000000,1.000000,0.197600,1.000000);
+COLORSET(4,2, 1.000000,1.000000,0.388235,1.000000);
+COLORSET(4,3, 1.000000,1.000000,0.529412,1.000000);
+'カラー5
+Shader(5,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(5,2, 1.000000,0.188235,0.184314,0.188235);
+COLORSET(5,3, 1.000000,0.839216,0.839216,0.000000);'カラー6
+Shader(6,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(6,2, 1.000000,0.215686,0.215686,0.219608);
+COLORSET(6,3, 1.000000,0.917647,0.000000,0.000000);
+'カラー7
+Shader(7,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(7,2, 1.000000,0.000000,0.384314,0.000000);
+COLORSET(7,3, 1.000000,0.000000,0.623529,0.000000);
+COLORSET(7,4, 1.000000,1.000000,0.925490,0.000000);
+COLORSET(7,5, 1.000000,0.000000,1.000000,0.000000);
+COLORSET(7,6, 1.000000,1.000000,0.250980,1.000000);
+'カラー8
+Shader(8,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(8,2, 1.000000,1.000000,1.000000,1.000000);
+COLORSET(8,3, 1.000000,0.850980,0.741000,1.000000);
+COLORSET(8,4, 1.000000,0.561000,0.000000,0.000000);
+'カラー9
+Shader(9,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(9,1, 1.000000,0.105882,0.101961,0.098039);
+COLORSET(9,2, 1.000000,1.000000,0.894118,0.000000);
+COLORSET(9,3, 1.000000,0.164706,0.168627,0.196078);
+COLORSET(9,6, 1.000000,1.000000,0.000000,0.000000);
+COLORSET(9,7, 1.000000,1.000000,0.000000,0.000000);
+
+BURNERSET(0,Output01.x, 1.2, UP);
+BURNERSET(1,Output02.x, 1.2, UP);
+BURNERSET(2,Output03.x, 0.4, UP);
+BURNERSET(3,Output04.x, 0.4, UP);
+
+ATTACKARMSET(0,arm_rotation.x);
+'GUNFILENAME(0,Gun.x);
+'GUNFILENAME(9,sword_dammy.x);
+'SWORDFILENAME(0,sword.x);
+'SWORDFILENAME(9,Gun_dammy.x);
+
+WEAPONPOINT(0,Weapon_point.x,UP);
+WEAPONPOINT(1,Weapon_point2.x,UP);
+
+WEAPONPOINT(18,Output01.x,UP);
+WEAPONPOINT(19,Output02.x,UP);
+
+LoadXFile2(0,Cristal_red.x,Cristal_Hit.x,1);
+LoadXFile2(1,Cristal_blue.x,Cristal_Hit.x,1);
+LoadXFile2(2,Cristal_green.x,Cristal_Hit.x,1);
+LoadXFile2(3,Cristal_gold.x,Cristal_Hit.x,1);
+LoadXFile2(4,Cristal_silver.x,Cristal_Hit.x,1);
+LoadXFile2(5,Cristal_heal.x,Cristal_healHit.x,1);
+

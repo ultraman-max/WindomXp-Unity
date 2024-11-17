@@ -1,0 +1,106 @@
+@99 = 999999999.0;	'STOP
+Name=Windom Talisker WP;
+NameEng=Windom TaliskerWP;
+HP=1650;
+Generator=1300;
+Energy=1000;
+Score=1500;
+RestBody=2;
+LockDist=90;
+
+'AI設定
+AISetting(50, 50);	'戦闘重視モード(0[近接]～100[遠距離],標準間合い
+'AI用武器設定
+AIWeaponSetting(0,  10, 80, 50,  600); 'ショット(0),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(1,  1,  10, 60,  0); '近接,使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(2,  10, 80, 20,  400); 'サブ１(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(3,  10, 80, 60,  600); 'サブ２(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(4,  5,  80, 60,  600); 'サブ３(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+
+'カラー０(Default)
+ColorShader(0,6,		1,   1.0,0,0,0,0,0,0,0,0,0);
+ColorShader(0,7,		1,   0.5,0,0,0,0,0,0,0,0,0);
+'カラー１
+ColorShader(1,6,		1,   1.0,0,0,0,0,0,0,0,0,0);
+ColorShader(1,7,		1,   0.5,0,0,0,0,0,0,0,0,0);
+COLORSET(1,4, 1.000000,0.792157,0.078431,0.050980);
+'カラー２
+ColorShader(2,6,		1,   1.0,0,0,0,0,0,0,0,0,0);
+ColorShader(2,7,		1,   0.5,0,0,0,0,0,0,0,0,0);
+COLORSET(2,4, 1.000000,0.000000,0.376471,0.000000);
+COLORSET(2,5, 1.000000,0.000000,0.262745,0.000000);
+'カラー３
+ColorShader(3,6,		1,   1.0,0,0,0,0,0,0,0,0,0);
+ColorShader(3,7,		1,   0.5,0,0,0,0,0,0,0,0,0);
+COLORSET(3,4, 1.000000,0.898039,0.376471,0.000000);
+COLORSET(3,5, 1.000000,0.929412,0.376471,0.000000);
+'カラー4
+ColorShader(4,6,		1,   1.0,0,0,0,0,0,0,0,0,0);
+ColorShader(4,7,		1,   0.5,0,0,0,0,0,0,0,0,0);
+COLORSET(4,1, 1.000000,1.000000,0.654902,0.858824);
+COLORSET(4,4, 1.000000,0.819608,0.078431,0.050980);
+'カラー5
+ColorShader(5,6,		1,   1.0,0,0,0,0,0,0,0,0,0);
+ColorShader(5,7,		1,   0.5,0,0,0,0,0,0,0,0,0);
+COLORSET(5,1, 1.000000,0.152941,0.149020,0.149020);
+COLORSET(5,4, 1.000000,0.949020,0.047000,0.000000);
+COLORSET(5,7, 1.000000,1.000000,0.000000,0.000000);
+'カラー6
+ColorShader(6,6,		1,   1.0,0,0,0,0,0,0,0,0,0);
+ColorShader(6,7,		1,   0.5,0,0,0,0,0,0,0,0,0);
+COLORSET(6,1, 1.000000,0.905882,0.000000,0.000000);
+COLORSET(6,4, 1.000000,0.294118,0.047000,0.000000);
+COLORSET(6,5, 1.000000,0.137255,0.137255,0.141176);
+'カラー7
+ColorShader(7,6,		1,   1.0,0,0,0,0,0,0,0,0,0);
+ColorShader(7,7,		1,   0.5,0,0,0,0,0,0,0,0,0);
+COLORSET(7,1, 1.000000,0.396078,0.078431,0.345098);
+COLORSET(7,5, 1.000000,0.000000,0.000000,0.329412);
+COLORSET(7,7, 1.000000,1.000000,1.000000,0.000000);
+'カラー8
+ColorShader(8,6,		1,   1.0,0,0,0,0,0,0,0,0,0);
+ColorShader(8,7,		1,   0.5,0,0,0,0,0,0,0,0,0);
+COLORSET(8,1, 1.000000,0.000000,0.000000,0.207843);
+COLORSET(8,5, 1.000000,0.054902,0.000000,0.024000);
+COLORSET(8,7, 1.000000,0.000000,0.000000,0.000000);
+'カラー9
+ColorShader(9,1,		1,   0.7,0,0,0,0,0,0,0,0,0);
+ColorShader(9,6,		1,   1.0,0,0,0,0,0,0,0,0,0);
+ColorShader(9,7,		1,   0.5,0,0,0,0,0,0,0,0,0);
+COLORSET(9,1, 1.000000,1.000000,1.000000,0.000000);
+COLORSET(9,7, 1.000000,1.000000,1.000000,0.000000);
+
+BURNERSET(0,Output01.x, 1.8, UP);
+BURNERSET(1,Output02.x, 1.8, UP);
+BURNERSET(2,Output03.x, 0.8, DOWN);
+BURNERSET(3,Output04.x, 0.8, DOWN);
+BURNERSET(4,Output05.x, 0.8, DOWN);
+BURNERSET(5,Output06.x, 0.8, DOWN);
+BURNERSET(6,Output07.x, 0.4, UP);
+BURNERSET(7,Output08.x, 0.4, UP);
+BURNERSET(8,Output09.x, 1.3, UP);
+
+ATTACKARMSET(0,arm_rotation_r.x);
+GUNFILENAME(0,gun.x);
+GUNFILENAME(8,katana_dammy.x);
+GUNFILENAME(9,katana_dammy_r.x);
+SWORDFILENAME(0,katana.x);
+SWORDFILENAME(1,katana2.x);
+SWORDFILENAME(9,gun_dammy.x);
+
+WEAPONPOINT(0,Weapon_point.x,UP);
+WEAPONPOINT(1,Weapon_point2.x,UP);
+WEAPONPOINT(2,Weapon_point3.x,UP);
+WEAPONPOINT(3,Weapon_point4.x,UP);
+WEAPONPOINT(4,Weapon_point5.x,UP);
+
+WEAPONPOINT(5,Shield_point.x,UP);
+WEAPONPOINT(6,Shield.x,UP);
+WEAPONPOINT(7,Weapon_point_gatling.x,UP);
+WEAPONPOINT(8,Weapon_point_Yakkyou.x,UP);
+
+WEAPONPOINT(17,Output09.x,UP);
+WEAPONPOINT(18,Output01.x,UP);
+WEAPONPOINT(19,Output02.x,UP);
+
+LoadXFile(0,yakkyou.x,1);

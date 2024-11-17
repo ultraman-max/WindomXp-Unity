@@ -1,0 +1,97 @@
+@99 = 999999999.0;	'STOP
+Name=Linux Primula;
+NameEng=Linux-Primula;
+HP=1950;
+Generator=1800;
+Energy=1900;
+Score=2250;
+RestBody=1;
+LockDist=110;
+
+'AI設定
+AISetting(70, 40);	'戦闘重視モード(0[近接]～100[遠距離],標準間合い
+'AI用武器設定
+AIWeaponSetting(0,  5, 100, 50,  600); 'ショット(0),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(1,  1, 8,   10,  500); '近接,使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(2,  15, 100,30,  500); 'サブ１(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(3,  15, 100,40,  550); 'サブ１(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+AIWeaponSetting(4,  5, 100,30,  700); 'サブ１(2),使用距離(近),遠,頻度(%),使用エネルギ判定
+
+Shader(0,		1,   0.8,0,0,0,0,0,0,0,0,0);
+'カラー１
+Shader(1,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(1,2, 1.000000,0.027451,0.121569,0.019608);
+'カラー２
+Shader(2,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(2,2, 1.000000,0.066667,0.058824,0.282353);
+'カラー３
+Shader(3,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(3,2, 1.000000,1.000000,0.000000,0.000000);
+'カラー４
+Shader(4,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(4,2, 1.000000,0.290196,0.282353,0.282353);
+'カラー５
+Shader(5,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(5,2, 1.000000,0.000000,1.000000,0.000000);
+'カラー６
+Shader(6,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(6,2, 1.000000,1.000000,0.309804,1.000000);
+COLORSET(6,5, 1.000000,0.000000,1.000000,0.000000);
+'カラー７
+Shader(7,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(7,1, 1.000000,1.000000,0.000000,0.000000);
+COLORSET(7,2, 1.000000,1.000000,1.000000,1.000000);
+COLORSET(7,5, 1.000000,0.031373,0.533333,1.000000);
+'カラー８
+Shader(8,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(8,1, 1.000000,1.000000,1.000000,0.223529);
+COLORSET(8,2, 1.000000,0.058824,0.054902,0.054902);
+COLORSET(8,5, 1.000000,1.000000,0.337255,1.000000);
+'カラー９
+Shader(9,		1,   0.8,0,0,0,0,0,0,0,0,0);
+COLORSET(9,1, 1.000000,0.050980,0.047059,0.050980);
+COLORSET(9,2, 1.000000,0.619608,0.619608,0.619608);
+COLORSET(9,5, 1.000000,1.000000,0.447059,1.000000);
+
+BURNERSET(0,Output01.x, 1.2, UP);
+BURNERSET(1,Output02.x, 1.2, UP);
+BURNERSET(2,Output03.x, 0.4, UP);
+BURNERSET(3,Output04.x, 0.4, UP);
+BURNERSET(4,Weapon_point.x, 2.2, UP);
+
+ATTACKARMSET(0,arm_rotation.x);
+ATTACKARMSET(1,arm_rotation_l.x);
+'GUNFILENAME(0,Gun.x);
+'GUNFILENAME(9,sword_dammy.x);
+'SWORDFILENAME(0,sword.x);
+'SWORDFILENAME(9,Gun_dammy.x);
+
+WEAPONPOINT(0,Weapon_point.x,UP);
+WEAPONPOINT(1,Weapon_point2.x,UP);
+WEAPONPOINT(2,Weapon_point3.x,UP);
+WEAPONPOINT(3,Shield_point.x,UP);
+WEAPONPOINT(4,Weapon_point_LH1.x,UP);
+WEAPONPOINT(5,Weapon_point_LH2.x,UP);
+WEAPONPOINT(6,Weapon_point_LH3.x,UP);
+WEAPONPOINT(10,Weapon_point_Back00.x,UP);
+WEAPONPOINT(11,Weapon_point_Back01.x,UP);
+WEAPONPOINT(12,Weapon_point_Back02.x,UP);
+WEAPONPOINT(13,Weapon_point_Back03.x,UP);
+WEAPONPOINT(14,Weapon_point_Back04.x,UP);
+WEAPONPOINT(15,Weapon_point_Back05.x,UP);
+WEAPONPOINT(16,Weapon_point_Back06.x,UP);
+WEAPONPOINT(17,Weapon_point_Back07.x,UP);
+WEAPONPOINT(18,Weapon_point_Back08.x,UP);
+WEAPONPOINT(19,Weapon_point_Back09.x,UP);
+WEAPONPOINT(20,Weapon_point_dammy.x,DOWN);
+
+WEAPONPOINT(21,Output01.x,DOWN);
+WEAPONPOINT(22,Output02.x,DOWN);
+
+LoadXFile(0,Cristal_red.x,1);
+LoadXFile(1,Cristal_blue.x,1);
+LoadXFile(2,Cristal_green.x,1);
+LoadXFile(3,Cristal_gold.x,1);
+LoadXFile(4,Cristal_silver.x,1);
+LoadXFile(5,Cristal_heal.x,1);
+
