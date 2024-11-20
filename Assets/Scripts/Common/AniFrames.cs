@@ -10,6 +10,7 @@ public struct AniFrames
 {
     public string name;
     public string squirrelInit;
+    [HideInInspector]
     public List<Hod2v1> frames;
     public List<WindomScript> scripts;
 
@@ -47,6 +48,10 @@ public struct AniFrames
         if (textLength != 0)
         {
             squirrelInit = USEncoder.ToEncoding.ToUnicode(br.ReadBytes(textLength));
+        }
+        else
+        {
+            squirrelInit = "";
         }
 
         //Read Hod Files

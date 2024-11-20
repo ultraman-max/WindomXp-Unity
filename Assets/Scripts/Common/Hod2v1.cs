@@ -16,6 +16,8 @@ public struct Hod2v1_Part
     public Quaternion unk1;
     public Quaternion unk2;
     public Quaternion unk3;
+    [HideInInspector]
+    public byte[] extraBytes;
 
     Hod2v1_Part(Hod2v1_Part copy)
     {
@@ -28,6 +30,7 @@ public struct Hod2v1_Part
         unk1 = copy.unk1;
         unk2 = copy.unk2;
         unk3 = copy.unk3;
+        extraBytes = copy.extraBytes;
     }
 
     public static Hod2v1_Part interpolatePart(in Hod2v1_Part prevFrame, in Hod2v1_Part nextFrame, float ratio)
@@ -66,8 +69,6 @@ public struct Hod2v1
 
     public bool loadFromBinary(ref BinaryReader br, ref Hod2v0 structure)
     {
-        
-        //data = br.ReadBytes(11 + (partCount * 179));
         string signature = new string(br.ReadChars(3));
         int version = br.ReadInt32();
         if (signature == "HD2" && version == 1)
@@ -108,7 +109,10 @@ public struct Hod2v1
                 nPart.unk3.y = br.ReadSingle();
                 nPart.unk3.z = br.ReadSingle();
                 nPart.unk3.w = br.ReadSingle();
-                br.BaseStream.Seek(83, SeekOrigin.Current);
+                //nPart.unk1 = Quaternion.Slerp(nPart.rotation, nPart.unk1, 2f);
+                //nPart.unk2 = Quaternion.Slerp(nPart.rotation, nPart.unk2, 2f);
+                //nPart.unk3 = Quaternion.Slerp(nPart.rotation, nPart.unk3, 2f);
+                nPart.extraBytes = br.ReadBytes(83);
                 parts.Add(nPart);
             }
         }
@@ -154,7 +158,8 @@ public struct Hod2v1
             bw.Write(parts[i].unk3.y);
             bw.Write(parts[i].unk3.z);
             bw.Write(parts[i].unk3.w);
-            bw.BaseStream.Seek(83, SeekOrigin.Current);
+            bw.Write(parts[i].extraBytes);
+            //bw.BaseStream.Seek(83, SeekOrigin.Current);
         }
     }
 }

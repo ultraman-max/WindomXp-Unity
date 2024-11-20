@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 [CreateAssetMenu(fileName = "WindomAni2", menuName = "ScriptableObjects/WindomAni2", order = 1)]
 public class WindomAni2 : ScriptableObject
@@ -22,6 +24,31 @@ public class WindomAni2 : ScriptableObject
     public void SaveFile()
     {
         save(fileName); 
+    }
+
+
+    [ContextMenu("Test")]
+    public void Test()
+    {
+        foreach (var item in animations)
+        {
+            if(item.outputAnim)
+                for (int i = 0; i < item.scripts.Count; i++)
+            {
+                WindomScript script = item.scripts[i];
+                if (script.squirrel != null)
+                {
+                        script.squirrel=script.squirrel.Replace("WeaponAttack2(0,24,\t2,20,30,130,12,27,0,0,1,0);", "WeaponAttack2(0,24,\t2,20,30,130,13,27,0,0,1,0);");
+                        item.scripts[i] = script;
+                        
+                        //if (script.squirrel.Contains("90"))
+                        //{
+                        //    Debug.Log(item.name);
+                        //    Debug.Log(script.squirrel);
+                        //}
+                }
+            }
+        }
     }
 
 #if UNITY_EDITOR
@@ -50,6 +77,7 @@ public class WindomAni2 : ScriptableObject
             animations = new List<AniFrames>();
             //Encoding ShiftJis = Encoding.GetEncoding(932);
             string robohod = USEncoder.ToEncoding.ToUnicode(br.ReadBytes(256)).TrimEnd('\0');
+            robohod = robohod.Replace("\0", "$$");
             structure = new Hod2v0(robohod);
             structure.loadFromBinary(ref br);
 
@@ -108,7 +136,7 @@ public class WindomAni2 : ScriptableObject
             File.Delete(filename);
         BinaryWriter bw = new BinaryWriter(File.Open(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite));
         bw.Write(ASCIIEncoding.ASCII.GetBytes("AN2"));
-        byte[] shiftjistext = USEncoder.ToEncoding.ToSJIS(structure.filename);
+        byte[] shiftjistext = USEncoder.ToEncoding.ToSJIS(structure.filename.Replace("$$","\0"));
         bw.Write(shiftjistext);
         bw.BaseStream.Seek(256 - shiftjistext.Length, SeekOrigin.Current);
         structure.saveToBinary(ref bw);

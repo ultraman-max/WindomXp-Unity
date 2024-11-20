@@ -16,6 +16,8 @@ public struct Hod2v0_Part
     public Vector3 position;
     public byte flag;
     public Vector3 unk;
+    [HideInInspector]
+    public byte[] extraBytes;
 }
 
 [Serializable]
@@ -31,8 +33,6 @@ public struct Hod2v0
 
     public bool loadFromBinary(ref BinaryReader br)
     {
-
-        //data = br.ReadBytes(11 + (partCount * 399));
         string signature = new string(br.ReadChars(3));
         int version = br.ReadInt32();
         if (signature == "HD2" && version == 0)
@@ -63,7 +63,7 @@ public struct Hod2v0
                 nPart.unk.x = br.ReadSingle();
                 nPart.unk.y = br.ReadSingle();
                 nPart.unk.z = br.ReadSingle();
-                br.BaseStream.Seek(82, SeekOrigin.Current);
+                nPart.extraBytes = br.ReadBytes(82); // 保存额外的82个字节
                 parts.Add(nPart);
             }
         }
@@ -99,7 +99,8 @@ public struct Hod2v0
             bw.Write(parts[i].unk.x);
             bw.Write(parts[i].unk.y);
             bw.Write(parts[i].unk.z);
-            bw.BaseStream.Seek(82, SeekOrigin.Current);
+            bw.Write(parts[i].extraBytes);
+            //bw.BaseStream.Seek(82, SeekOrigin.Current);
         }
     }
 
