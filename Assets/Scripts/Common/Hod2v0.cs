@@ -1,3 +1,4 @@
+using Assimp.Unmanaged;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -100,6 +101,39 @@ public struct Hod2v0
             bw.Write(parts[i].unk.z);
             bw.BaseStream.Seek(82, SeekOrigin.Current);
         }
+    }
+
+    public void buildPaths(out string[] partPaths)
+    {
+        partPaths = new string[parts.Count];
+        for (int i = 0; i < parts.Count; i++)
+        {
+            if (i == 0)
+            {
+                partPaths[i] = "";
+            }
+            else
+            {
+                //find next level higher in tree.
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    if (parts[i].treeDepth - 1 == parts[j].treeDepth)
+                    {
+                        if (j == 0)
+                        {
+                            partPaths[i] = parts[i].name;
+                        }
+                        else
+                        {
+                            partPaths[i] = partPaths[j] + "/" + parts[i].name;
+                        }
+                        break;
+                    }
+                }
+            }
+            //Debug.Log(partPaths[i]);.Replace(".x", "")
+        }
+
     }
 
 }

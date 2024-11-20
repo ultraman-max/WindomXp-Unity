@@ -10,6 +10,7 @@ public class WindomAni2 : ScriptableObject
     public string fileName;
     public Hod2v0 structure;
     public List<AniFrames> animations;
+    public int selectedAnimation;
 
     [ContextMenu("LoadFile")]
     public void LoadFile()
@@ -23,6 +24,21 @@ public class WindomAni2 : ScriptableObject
         save(fileName); 
     }
 
+#if UNITY_EDITOR
+    [ContextMenu("ExportAnim")]
+    public void ExportAnim()
+    {
+        structure.buildPaths(out string[] path);
+
+        foreach (var item in animations)
+        {
+            if (item.outputAnim)
+            {
+                item.BuildAnimations(path);
+            }
+        }
+    }
+#endif
     public bool load(string filename)
     {
         fileName = filename;

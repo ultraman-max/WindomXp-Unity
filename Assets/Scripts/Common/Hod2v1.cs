@@ -16,6 +16,40 @@ public struct Hod2v1_Part
     public Quaternion unk1;
     public Quaternion unk2;
     public Quaternion unk3;
+
+    Hod2v1_Part(Hod2v1_Part copy)
+    {
+        name = copy.name;
+        treeDepth = copy.treeDepth;
+        childCount = copy.childCount;
+        rotation = copy.rotation;
+        scale = copy.scale;
+        position = copy.position;
+        unk1 = copy.unk1;
+        unk2 = copy.unk2;
+        unk3 = copy.unk3;
+    }
+
+    public static Hod2v1_Part interpolatePart(in Hod2v1_Part prevFrame, in Hod2v1_Part nextFrame, float ratio)
+    {
+        if (ratio <= 0)
+        {
+            return new Hod2v1_Part(prevFrame);
+        }
+        else if (ratio >= 1)
+        {
+            return new Hod2v1_Part(nextFrame);
+        }
+
+        Hod2v1_Part iPart = new Hod2v1_Part()
+        {
+            position = Vector3.Lerp(prevFrame.position, nextFrame.position, ratio),
+            rotation = Quaternion.Lerp(prevFrame.rotation, nextFrame.rotation, ratio),
+            scale = Vector3.Lerp(prevFrame.scale, nextFrame.scale, ratio),
+        };
+
+        return iPart;
+    }
 }
 
 [Serializable]

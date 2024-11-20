@@ -17,7 +17,7 @@ public class MechLoader : MonoBehaviour
         roboStructure.transcoder = new CypherTranscoder();
         if (File.Exists(Path.Combine(folder, "Script.ani")))
         {
-            roboStructure.buildStructure();
+            roboStructure.BuildStructure();
         }
         else
             Debug.Log("Missing Script Ani");
