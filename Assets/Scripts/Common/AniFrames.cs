@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Assimp.Unmanaged;
 using UnityEditor;
+using System.Diagnostics.Eventing.Reader;
 
 [Serializable]
 public struct AniFrames
@@ -166,7 +167,7 @@ public struct AniFrames
     }
 
 #if UNITY_EDITOR
-    public void BuildAnimations(string[] partPaths)
+    public void BuildAnimations(string[] partPaths, string savePath = "Assets/")
     {
         if( frames.Count==0)return;
         AnimationClip nClip = new AnimationClip();
@@ -208,60 +209,81 @@ public struct AniFrames
             PosZ.AddKey(0, curFrameAni.position.z);
 
 
-            for (int j = 0; j < scripts.Count; j++)
-            {
-                var script = scripts[j];
-                float aniFrameCurSpt = script.GetAniFrameLength();
-
-                if(aniFrameCurSpt == 0.0f) continue;
-
-                float aniFramePrevSpt = aniFrameSoFar;
-                float aniFrameNextSpt = aniFrameSoFar + aniFrameCurSpt;
-                int gameFramePrevSpt = gameFrameSoFar;
-                int gameFrameNextSpt = gameFrameSoFar + script.frameCount;
-
-                for (int k = 0; k < frames.Count - 1; k++)
+            if (scripts.Count == 0) {
+                for (int h = 1; h < frames.Count; h++)
                 {
-                    if (k <= aniFramePrevSpt || k >= aniFrameNextSpt) continue;
+                    float time = h/6f;  //fix speed for no script ani, not exact speed
+                    RotX.AddKey(time, frames[h].parts[i].rotation.x);
+                    RotY.AddKey(time, frames[h].parts[i].rotation.y);
+                    RotZ.AddKey(time, frames[h].parts[i].rotation.z);
+                    RotW.AddKey(time, frames[h].parts[i].rotation.w);
 
-                    float aniSpeed = script.aniSpeed;
+                    ScaleX.AddKey(time, frames[h].parts[i].scale.x);
+                    ScaleY.AddKey(time, frames[h].parts[i].scale.y);
+                    ScaleZ.AddKey(time, frames[h].parts[i].scale.z);
 
-                    float gameFrameCountCurAniFrame = gameFramePrevSpt + (k - aniFramePrevSpt) / aniSpeed;
-
-                    float keyFrameTime = gameFrameCountCurAniFrame / fps;
-
-                    RotX.AddKey(keyFrameTime, frames[k].parts[i].rotation.x);
-                    RotY.AddKey(keyFrameTime, frames[k].parts[i].rotation.y);
-                    RotZ.AddKey(keyFrameTime, frames[k].parts[i].rotation.z);
-                    RotW.AddKey(keyFrameTime, frames[k].parts[i].rotation.w);
-
-                    ScaleX.AddKey(keyFrameTime, frames[k].parts[i].scale.x);
-                    ScaleY.AddKey(keyFrameTime, frames[k].parts[i].scale.y);
-                    ScaleZ.AddKey(keyFrameTime, frames[k].parts[i].scale.z);
-
-                    PosX.AddKey(keyFrameTime, frames[k].parts[i].position.x);
-                    PosY.AddKey(keyFrameTime, frames[k].parts[i].position.y);
-                    PosZ.AddKey(keyFrameTime, frames[k].parts[i].position.z);
+                    PosX.AddKey(time, frames[h].parts[i].position.x);
+                    PosY.AddKey(time, frames[h].parts[i].position.y);
+                    PosZ.AddKey(time, frames[h].parts[i].position.z);
                 }
+            }
+            else
+            {
+                for (int j = 0; j < scripts.Count; j++)
+                {
+                    var script = scripts[j];
+                    float aniFrameCurSpt = script.GetAniFrameLength();
 
-                aniFrameSoFar += aniFrameCurSpt;
-                gameFrameSoFar += script.frameCount;
+                    if(aniFrameCurSpt == 0.0f) continue;
 
-                curFrameAni = interpolatePart(aniFrameSoFar, i);
-                float curFrameTime = gameFrameSoFar / fps;
+                    float aniFramePrevSpt = aniFrameSoFar;
+                    float aniFrameNextSpt = aniFrameSoFar + aniFrameCurSpt;
+                    int gameFramePrevSpt = gameFrameSoFar;
+                    int gameFrameNextSpt = gameFrameSoFar + script.frameCount;
 
-                RotX.AddKey(curFrameTime, curFrameAni.rotation.x);
-                RotY.AddKey(curFrameTime, curFrameAni.rotation.y);
-                RotZ.AddKey(curFrameTime, curFrameAni.rotation.z);
-                RotW.AddKey(curFrameTime, curFrameAni.rotation.w);
+                    for (int k = 0; k < frames.Count - 1; k++)
+                    {
+                        if (k <= aniFramePrevSpt || k >= aniFrameNextSpt) continue;
 
-                ScaleX.AddKey(curFrameTime, curFrameAni.scale.x);
-                ScaleY.AddKey(curFrameTime, curFrameAni.scale.y);
-                ScaleZ.AddKey(curFrameTime, curFrameAni.scale.z);
+                        float aniSpeed = script.aniSpeed;
 
-                PosX.AddKey(curFrameTime, curFrameAni.position.x);
-                PosY.AddKey(curFrameTime, curFrameAni.position.y);
-                PosZ.AddKey(curFrameTime, curFrameAni.position.z);
+                        float gameFrameCountCurAniFrame = gameFramePrevSpt + (k - aniFramePrevSpt) / aniSpeed;
+
+                        float keyFrameTime = gameFrameCountCurAniFrame / fps;
+
+                        RotX.AddKey(keyFrameTime, frames[k].parts[i].rotation.x);
+                        RotY.AddKey(keyFrameTime, frames[k].parts[i].rotation.y);
+                        RotZ.AddKey(keyFrameTime, frames[k].parts[i].rotation.z);
+                        RotW.AddKey(keyFrameTime, frames[k].parts[i].rotation.w);
+
+                        ScaleX.AddKey(keyFrameTime, frames[k].parts[i].scale.x);
+                        ScaleY.AddKey(keyFrameTime, frames[k].parts[i].scale.y);
+                        ScaleZ.AddKey(keyFrameTime, frames[k].parts[i].scale.z);
+
+                        PosX.AddKey(keyFrameTime, frames[k].parts[i].position.x);
+                        PosY.AddKey(keyFrameTime, frames[k].parts[i].position.y);
+                        PosZ.AddKey(keyFrameTime, frames[k].parts[i].position.z);
+                    }
+
+                    aniFrameSoFar += aniFrameCurSpt;
+                    gameFrameSoFar += script.frameCount;
+
+                    curFrameAni = interpolatePart(aniFrameSoFar, i);
+                    float curFrameTime = gameFrameSoFar / fps;
+
+                    RotX.AddKey(curFrameTime, curFrameAni.rotation.x);
+                    RotY.AddKey(curFrameTime, curFrameAni.rotation.y);
+                    RotZ.AddKey(curFrameTime, curFrameAni.rotation.z);
+                    RotW.AddKey(curFrameTime, curFrameAni.rotation.w);
+
+                    ScaleX.AddKey(curFrameTime, curFrameAni.scale.x);
+                    ScaleY.AddKey(curFrameTime, curFrameAni.scale.y);
+                    ScaleZ.AddKey(curFrameTime, curFrameAni.scale.z);
+
+                    PosX.AddKey(curFrameTime, curFrameAni.position.x);
+                    PosY.AddKey(curFrameTime, curFrameAni.position.y);
+                    PosZ.AddKey(curFrameTime, curFrameAni.position.z);
+                }
             }
 
             //load curves into clip
@@ -283,7 +305,8 @@ public struct AniFrames
         {
             try
             {
-                AssetDatabase.CreateAsset(nClip, "Assets/" + nClip.name + ".anim");
+
+                AssetDatabase.CreateAsset(nClip, Path.Combine(savePath,nClip.name.Replace(':','_') + ".anim"));
                 AssetDatabase.SaveAssets();
             }
             catch

@@ -65,6 +65,16 @@ public class WindomAni2 : ScriptableObject
             }
         }
     }
+
+    public void ExportAnim(string savePath)
+    {
+        structure.buildPaths(out string[] path);
+
+        foreach (var item in animations)
+        {
+            item.BuildAnimations(path,savePath);
+        }
+    }
 #endif
     public bool load(string filename)
     {

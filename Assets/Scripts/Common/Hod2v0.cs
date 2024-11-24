@@ -122,11 +122,11 @@ public struct Hod2v0
                     {
                         if (j == 0)
                         {
-                            partPaths[i] = parts[i].name;
+                            partPaths[i] = parts[i].name.Replace(".x", "");
                         }
                         else
                         {
-                            partPaths[i] = partPaths[j] + "/" + parts[i].name;
+                            partPaths[i] = partPaths[j] + "/" + parts[i].name.Replace(".x", "");
                         }
                         break;
                     }

@@ -19,15 +19,15 @@ public class MechStruct : MonoBehaviour
     public GameObject root;
     public List<GameObject> parts = new List<GameObject>();
     public List<bool> isTop = new List<bool>();
-    public hod2v0 hod;
-    public ani2 ani;
+    public Hod2v0 hod;
+    public WindomAni2 ani;
     public Assimp.AssimpImporter Importer = new Assimp.AssimpImporter();
     public string folder;
     public string mechName;
     public string filename;
     public CypherTranscoder transcoder = new CypherTranscoder();
 
-    ani2 aniFile = new ani2();
+    WindomAni2 aniFile;
     string[] partPaths;
 
     public static GameObject LoadMech(string path, string name)
@@ -80,7 +80,7 @@ public class MechStruct : MonoBehaviour
 
     public void BuildStructure()
     {
-        ani = new ani2();
+        ani = WindomAni2.CreateInstance<WindomAni2>();
         //ani.load(Path.Combine(folder, "robo.hod"));
         ani.load(Path.Combine(folder, "Script.ani"));
 
@@ -88,7 +88,7 @@ public class MechStruct : MonoBehaviour
         BuildAnimations();
     }
 
-    public void BuildStructure(hod2v0 Robo)
+    public void BuildStructure(Hod2v0 Robo)
     {
         isTop.Clear();
         //find cypher
@@ -225,83 +225,11 @@ public class MechStruct : MonoBehaviour
 
     void BuildAnimations()
     {
-        aniFile = new ani2();
+        aniFile = WindomAni2.CreateInstance<WindomAni2>();
         aniFile.load(Path.Combine(folder, "Script.ani"));
         BuildPaths();
 
-        for (int a = 0; a < aniFile.animations.Count; a++)
-        {
-            if (aniFile.animations[a].name.Length > 0)
-            {
-                AnimationClip nClip = new AnimationClip();
-                windomAnimation windomAnimation = aniFile.animations[a];
-                nClip.name = a.ToString() + " - " + windomAnimation.name;
-                nClip.name = nClip.name.Replace(':', '-');
-                //calculate frame length
-                float timeBetween = 0.0f;
-                for (int s = 0; s < windomAnimation.scripts.Count; s++)
-                    timeBetween += windomAnimation.scripts[s].time * 2;
-
-                timeBetween = timeBetween / (windomAnimation.frames.Count - 1);
-
-                for (int i = 0; i < partPaths.Length; i++)
-                {
-                    float time = 0.0f;
-                    AnimationCurve RotX = new AnimationCurve();
-                    AnimationCurve RotY = new AnimationCurve();
-                    AnimationCurve RotZ = new AnimationCurve();
-                    AnimationCurve RotW = new AnimationCurve();
-
-                    AnimationCurve ScaleX = new AnimationCurve();
-                    AnimationCurve ScaleY = new AnimationCurve();
-                    AnimationCurve ScaleZ = new AnimationCurve();
-
-                    AnimationCurve PosX = new AnimationCurve();
-                    AnimationCurve PosY = new AnimationCurve();
-                    AnimationCurve PosZ = new AnimationCurve();
-
-                    //add to curves from hod file
-                    for (int h = 0; h < windomAnimation.frames.Count; h++)
-                    {
-
-                        RotX.AddKey(time, windomAnimation.frames[h].parts[i].rotation.x);
-                        RotY.AddKey(time, windomAnimation.frames[h].parts[i].rotation.y);
-                        RotZ.AddKey(time, windomAnimation.frames[h].parts[i].rotation.z);
-                        RotW.AddKey(time, windomAnimation.frames[h].parts[i].rotation.w);
-
-                        ScaleX.AddKey(time, windomAnimation.frames[h].parts[i].scale.x);
-                        ScaleY.AddKey(time, windomAnimation.frames[h].parts[i].scale.y);
-                        ScaleZ.AddKey(time, windomAnimation.frames[h].parts[i].scale.z);
-
-                        PosX.AddKey(time, windomAnimation.frames[h].parts[i].position.x);
-                        PosY.AddKey(time, windomAnimation.frames[h].parts[i].position.y);
-                        PosZ.AddKey(time, windomAnimation.frames[h].parts[i].position.z);
-
-                        time += timeBetween;
-
-                    }
-
-                    //load curves into clip
-                    nClip.SetCurve(partPaths[i], typeof(Transform), "localRotation.x", RotX);
-                    nClip.SetCurve(partPaths[i], typeof(Transform), "localRotation.y", RotY);
-                    nClip.SetCurve(partPaths[i], typeof(Transform), "localRotation.z", RotZ);
-                    nClip.SetCurve(partPaths[i], typeof(Transform), "localRotation.w", RotW);
-
-                    nClip.SetCurve(partPaths[i], typeof(Transform), "localScale.x", ScaleX);
-                    nClip.SetCurve(partPaths[i], typeof(Transform), "localScale.y", ScaleY);
-                    nClip.SetCurve(partPaths[i], typeof(Transform), "localScale.z", ScaleZ);
-
-                    nClip.SetCurve(partPaths[i], typeof(Transform), "localPosition.x", PosX);
-                    nClip.SetCurve(partPaths[i], typeof(Transform), "localPosition.y", PosY);
-                    nClip.SetCurve(partPaths[i], typeof(Transform), "localPosition.z", PosZ);
-                }
-
-                if (nClip.name != "")
-                {
-                    SaveAni(ref nClip);
-                }
-            }
-        }
+        aniFile.ExportAnim(GetAniFolder());
     }
 
 
