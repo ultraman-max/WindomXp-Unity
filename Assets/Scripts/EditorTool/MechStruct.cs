@@ -20,7 +20,6 @@ public class MechStruct : MonoBehaviour
     public List<GameObject> parts = new List<GameObject>();
     public List<bool> isTop = new List<bool>();
     public Hod2v0 hod;
-    public WindomAni2 ani;
     public Assimp.AssimpImporter Importer = new Assimp.AssimpImporter();
     public string folder;
     public string mechName;
@@ -40,6 +39,7 @@ public class MechStruct : MonoBehaviour
         return mechGo;
     }
 
+    #region PathUtil
     public string GetMaterialFolder()
     {
         string path = Path.Combine(roboResPath, mechName, materialFolderName);
@@ -67,7 +67,6 @@ public class MechStruct : MonoBehaviour
         }
         return path;
     }
-
     public string GetAniFolder()
     {
         string path = Path.Combine(roboResPath, mechName, aniFolderName);
@@ -78,13 +77,20 @@ public class MechStruct : MonoBehaviour
         return path;
     }
 
+    public string GetStructPath()
+    {
+        return Path.Combine(roboResPath, mechName, "Struct.prefab");
+    }
+    #endregion
+
     public void BuildStructure()
     {
-        ani = WindomAni2.CreateInstance<WindomAni2>();
+        aniFile = WindomAni2.CreateInstance<WindomAni2>();
         //ani.load(Path.Combine(folder, "robo.hod"));
-        ani.load(Path.Combine(folder, "Script.ani"));
+        aniFile.load(Path.Combine(folder, "Script.ani"));
 
-        BuildStructure(ani.structure);
+        BuildStructure(aniFile.structure);
+        OutputStructurePrefab();
         BuildAnimations();
     }
 
@@ -111,8 +117,7 @@ public class MechStruct : MonoBehaviour
 
         for (int i = 0; i < Robo.parts.Count; i++)
         {
-
-            GameObject part = new GameObject(Path.GetFileNameWithoutExtension(Robo.parts[i].name));
+            GameObject part = new GameObject((Robo.parts[i].name).Replace(".x",""));
             if (i == 0)
             {
                 root = part;
@@ -166,7 +171,7 @@ public class MechStruct : MonoBehaviour
             try
             {
                 if (i != 0)
-                    ImportModelEncrypted(parts[i], Path.Combine(folder, Robo.parts[i].name));
+                    ImportModelEncrypted(parts[i], Path.Combine(folder, Robo.parts[i].name.Split("\0")[0]));
 
                 if (Robo.parts[i].name == "Body_d")
                 {
@@ -185,10 +190,20 @@ public class MechStruct : MonoBehaviour
                     parts[i].layer = 7;
                 }
             }
-            catch (Exception e) { Debug.LogException(e); }
+            catch (Exception e) { 
+                Debug.LogError($"ImportModelFail of Part: {Robo.parts[i].name}"); 
+                Debug.LogException(e); 
+            }
         }
     }
 
+    public void OutputStructurePrefab()
+    {
+#if UNITY_EDITOR
+        if (root == null) { Debug.LogError("Null Root"); return; }
+        PrefabUtility.SaveAsPrefabAssetAndConnect(root,GetStructPath(),InteractionMode.AutomatedAction);
+#endif
+    }
     void BuildPaths()
     {
         partPaths = new string[aniFile.structure.parts.Count];
@@ -225,8 +240,6 @@ public class MechStruct : MonoBehaviour
 
     void BuildAnimations()
     {
-        aniFile = WindomAni2.CreateInstance<WindomAni2>();
-        aniFile.load(Path.Combine(folder, "Script.ani"));
         BuildPaths();
 
         aniFile.ExportAnim(GetAniFolder());

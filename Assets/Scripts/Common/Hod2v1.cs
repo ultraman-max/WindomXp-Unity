@@ -46,8 +46,8 @@ public struct Hod2v1_Part
 
         Hod2v1_Part iPart = new Hod2v1_Part()
         {
-            position = Vector3.Lerp(prevFrame.position, nextFrame.position, ratio),
-            rotation = Quaternion.Lerp(prevFrame.rotation, nextFrame.rotation, ratio),
+            position = Vector3.Slerp(prevFrame.position, nextFrame.position, ratio),
+            rotation = Quaternion.Slerp(prevFrame.rotation, nextFrame.rotation, ratio),
             scale = Vector3.Lerp(prevFrame.scale, nextFrame.scale, ratio),
         };
 
