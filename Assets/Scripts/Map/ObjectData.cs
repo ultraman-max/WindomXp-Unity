@@ -5,8 +5,12 @@ using UnityEngine;
 public class ObjectData : MonoBehaviour
 {
     // Start is called before the first frame update
+    public int instanceID;  //For Debug
     public int ModelID;
     public int scriptID;
+    public Vector2Int grid;
+    public int gridInstId;
+    public Matrix4x4 matrix;
     public Map_Data data;
 
     public void build()
@@ -26,11 +30,12 @@ public class ObjectData : MonoBehaviour
 
             if (data.Pieces[ModelID].colliderMesh != null)
             {
-                if (gameObject.GetComponent <MeshCollider>() == null)
+                if (gameObject.GetComponent<MeshCollider>() == null)
                     gameObject.AddComponent<MeshCollider>().sharedMesh = data.Pieces[ModelID].colliderMesh;
                 else
-                    gameObject.GetComponent<MeshCollider>().sharedMesh = data.Pieces[ModelID].colliderMesh;    
+                    gameObject.GetComponent<MeshCollider>().sharedMesh = data.Pieces[ModelID].colliderMesh;
             }
         }
     }
+
 }

@@ -26,9 +26,10 @@ public class Map_Data : MonoBehaviour
 	//public List<Map_PieceBatch> pieceBatchList = new List<Map_PieceBatch>();
 	public PieceData[] Pieces;
 	public List<string> scripts = new List<string>();
-	public string path = "E:\\Downloads\\WindomMapsDecoded\\map\\moon";
+	public string path = "";
 	public Material baseMat;
 	public Material hitMat;
+	public CypherTranscoder transcoder;
 	public List<Vector3> point_0 = new List<Vector3>();
 	public List<Vector3> point_1 = new List<Vector3>();
 	public List<Vector3> point_2 = new List<Vector3>();
@@ -44,7 +45,7 @@ public class Map_Data : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-
+		transcoder = new CypherTranscoder();
 	}
 
     // Update is called once per frame
@@ -55,6 +56,13 @@ public class Map_Data : MonoBehaviour
 
 	public void loadmpd()
     {
+		string[] files = Directory.GetFiles(path);
+		foreach (string file in files)
+		{
+			if (transcoder.findCypher(file))
+				break;
+		}
+
 		mpd map = new mpd();
 		map.load(Path.Combine(path, "map.mpd"));
 		point_0 = new List<Vector3>();
@@ -177,27 +185,47 @@ public class Map_Data : MonoBehaviour
         od.scriptID = -1;
         HitArea.transform.localPosition = new Vector3(1500, 0, 1500);
         od.data = this;
-        od.build();
-		HitArea.AddComponent<MeshCollider>().sharedMesh = Pieces[199].visualMesh;
+        BuildObject(od);
 
-
-		SkyMap = new GameObject("Sky.x");
+        SkyMap = new GameObject("Sky.x");
 		od = SkyMap.AddComponent<ObjectData>();
 		od.ModelID = 198;
 		od.scriptID = -1;
 		SkyMap.transform.localPosition = new Vector3(1500, 0, 1500);
 		SkyMap.transform.localScale = Vector3.one * 3000;
 		od.data = this;
-		od.build();
+		BuildObject(od);
 
 	}
 
-	public void buildMapPart()
+    public void BuildObject(ObjectData objectData)
     {
+		int ModelID = objectData.ModelID;
 
+        if (Pieces[ModelID].visualMesh != null)
+        {
+            gameObject.name = Pieces[ModelID].visualMesh.name;
+            if (gameObject.GetComponent<MeshFilter>() == null)
+                gameObject.AddComponent<MeshFilter>().mesh = Pieces[ModelID].visualMesh;
+            else
+                gameObject.GetComponent<MeshFilter>().mesh = Pieces[ModelID].visualMesh;
+
+            if (gameObject.GetComponent<MeshRenderer>() == null)
+                gameObject.AddComponent<MeshRenderer>().materials = Pieces[ModelID].materials;
+            else
+                gameObject.GetComponent<MeshRenderer>().materials = Pieces[ModelID].materials;
+
+            if (Pieces[ModelID].colliderMesh != null)
+            {
+                if (gameObject.GetComponent<MeshCollider>() == null)
+                    gameObject.AddComponent<MeshCollider>().sharedMesh = Pieces[ModelID].colliderMesh;
+                else
+                    gameObject.GetComponent<MeshCollider>().sharedMesh = Pieces[ModelID].colliderMesh;
+            }
+        }
     }
 
-	public void save()
+    public void save()
     {
 		mpd map = new mpd();
 		map.scripts = scripts;
@@ -244,9 +272,9 @@ public class Map_Data : MonoBehaviour
 					ImportModel(Path.Combine(path, visualMesh), ref visualM, ref mats, isAlpha);
 
 				if (visualMesh == collisionMesh)
-				{ colliderM = visualM; }
+				{ colliderM = visualM; Debug.Log("Equals Visual"); }
 				if (collisionMesh != "")
-				{ colliderM = ImportModel(Path.Combine(path, collisionMesh));  }
+				{ colliderM = ImportModel(Path.Combine(path, collisionMesh)); Debug.Log("New Mesh Loaded"); }
 			}
 			catch
 			{
@@ -271,30 +299,19 @@ public class Map_Data : MonoBehaviour
 			Pieces[index].script = scriptText;
 		}
 	}
-    //public void build()
-    //{
-
-    //	for (int i = 0; i < pieceBatchList.Length; i++)
-    //	{
-    //		if (pieceBatchList[i] != null)
-    //		{
-    //			Debug.Log("Building");
-    //			pieceBatchList[i].destroyGameObjects();
-    //			pieceBatchList[i].generateGameObjects();
-    //		}
-    //	}
-    //}
 
     void ImportModel(GameObject GO, string file, bool isAlpha = false)
 	{
 		if (File.Exists(file))
 		{
-			
+			Debug.Log("File Exists");
 			try
 			{
 				string Modelpath = Path.GetDirectoryName(file);
 
-				var scen = Importer.ImportFile(file, Helper.PostProcessStepflags);
+				byte[] data = transcoder.Transcode(file);
+				MemoryStream ms = new MemoryStream(data);
+				var scen = Importer.ImportFileFromStream(ms, Helper.PostProcessStepflags, "x");
 				Mesh mesh = new Mesh();
 				mesh.CombineMeshes(scen.Meshes.Select(x => new CombineInstance()
 				{
@@ -328,9 +345,8 @@ public class Map_Data : MonoBehaviour
 								else
 									mat.mainTexture = Helper.LoadTexture(f.FullName);
 							}
-							catch(Exception e)
+							catch
 							{
-								Debug.LogException(e);
 							}
 						}
 					}
@@ -342,24 +358,25 @@ public class Map_Data : MonoBehaviour
 				//part.AddComponent<MeshCollider>().sharedMesh = mesh; 
 				GO.AddComponent<MeshRenderer>().materials = materials;
 			}
-			catch( Exception e )
+			catch
 			{
-				Debug.LogException(e);
 			}
 		}
 	}
 
 	void ImportModel(string file, ref Mesh mesh, ref Material[] materials, bool isAlpha = false)
 	{
-		
+		Debug.Log(file);
 		if (File.Exists(file))
 		{
-		
+			Debug.Log("File Exists");
 			try
 			{
 				string Modelpath = Path.GetDirectoryName(file);
 
-				var scen = Importer.ImportFile(file, Helper.PostProcessStepflags);
+				byte[] data = transcoder.Transcode(file);
+				MemoryStream ms = new MemoryStream(data);
+				var scen = Importer.ImportFileFromStream(ms, Helper.PostProcessStepflags, "x");
 				mesh.CombineMeshes(scen.Meshes.Select(x => new CombineInstance()
 				{
 					mesh = x.ToUnityMesh(),
@@ -420,7 +437,9 @@ public class Map_Data : MonoBehaviour
 			{
 				string Modelpath = Path.GetDirectoryName(file);
 
-				var scen = Importer.ImportFile(file, Helper.PostProcessStepflags);
+				byte[] data = transcoder.Transcode(file);
+				MemoryStream ms = new MemoryStream(data);
+				var scen = Importer.ImportFileFromStream(ms, Helper.PostProcessStepflags, "x");
 				Mesh mesh = new Mesh();
 				mesh.CombineMeshes(scen.Meshes.Select(x => new CombineInstance()
 				{
