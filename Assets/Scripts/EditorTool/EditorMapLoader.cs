@@ -28,7 +28,7 @@ public class EditorMapLoader : MonoBehaviour
     {
         Helper.TextureCache.Clear();
 
-        mpd map = CreateMPD();
+        Mpd map = CreateMPD();
 
         pieces = new PieceData[map.Pieces.Count];
         scripts = map.scripts;
@@ -46,7 +46,7 @@ public class EditorMapLoader : MonoBehaviour
 
     }
 
-    private mpd CreateMPD()
+    private Mpd CreateMPD()
     {
         string[] files = Directory.GetFiles(mapPath);
         foreach (string file in files)
@@ -54,12 +54,12 @@ public class EditorMapLoader : MonoBehaviour
             if (transcoder.findCypher(file))
                 break;
         }
-        mpd map = new mpd();
+        Mpd map = gameObject.AddComponent<Mpd>();
         map.load(Path.Combine(mapPath, "map.mpd"));
         return map;
     }
 
-    private void CreateMapObject(mpd map)
+    private void CreateMapObject(Mpd map)
     {
         if (mapObjects != null)
         {
@@ -73,10 +73,10 @@ public class EditorMapLoader : MonoBehaviour
         {
             for (int y = 0; y < map.WorldGrid.GetLength(1); y++)
             {
-                mpd_WorldGrid wg2 = map.WorldGrid[x, y];
+                Mpd_WorldGrid wg2 = map.WorldGrid[x, y];
                 for (int gridInstId = 0; gridInstId < wg2.objects.Count; gridInstId++)
                 {
-                    mpd_Object obj = wg2.objects[gridInstId];
+                    Mpd_Object obj = wg2.objects[gridInstId];
                     if (pieces[obj.pieceID].visualMesh != null)
                     {
                         GameObject go = new GameObject(pieces[obj.pieceID].visualMesh.name);
@@ -157,12 +157,12 @@ public class EditorMapLoader : MonoBehaviour
     [ContextMenu("Save")]
     public void Save()
     {
-        mpd map = new mpd();
+        Mpd map = new Mpd();
         map.scripts = scripts;
-        List<mpd_Piece> mpdPieces = new List<mpd_Piece>();
+        List<Mpd_Piece> mpdPieces = new List<Mpd_Piece>();
         for (int i = 0; i < pieces.Length; i++)
         {
-            mpd_Piece mpdPiece = new mpd_Piece();
+            Mpd_Piece mpdPiece = new Mpd_Piece();
             if (pieces[i].visualMesh != null)
             {
                 mpdPiece.visualMesh = pieces[i].visualMesh.name;
