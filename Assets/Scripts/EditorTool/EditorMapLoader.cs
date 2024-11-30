@@ -20,6 +20,9 @@ public class EditorMapLoader : MonoBehaviour
     public GameObject HitArea;
     //[HideInInspector]
     public GameObject SkyMap;
+
+    public Mpd map;
+
     CypherTranscoder transcoder = new CypherTranscoder();
 
 
@@ -28,7 +31,7 @@ public class EditorMapLoader : MonoBehaviour
     {
         Helper.TextureCache.Clear();
 
-        Mpd map = CreateMPD();
+        map = CreateMPD();
 
         pieces = new PieceData[map.Pieces.Count];
         scripts = map.scripts;
@@ -54,19 +57,14 @@ public class EditorMapLoader : MonoBehaviour
             if (transcoder.findCypher(file))
                 break;
         }
-        Mpd map = gameObject.AddComponent<Mpd>();
-        map.load(Path.Combine(mapPath, "map.mpd"));
+        NewMapObjects();
+        map = mapObjects.AddComponent<Mpd>();
+        map.Load(Path.Combine(mapPath, "map.mpd"));
         return map;
     }
 
     private void CreateMapObject(Mpd map)
     {
-        if (mapObjects != null)
-        {
-            DestroyImmediate(mapObjects);
-        }
-        mapObjects = new GameObject("Map");
-
         ObjectData od;
         int nextInstId = 0;
         for (int x = 0; x < map.WorldGrid.GetLength(0); x++)
@@ -97,6 +95,15 @@ public class EditorMapLoader : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void NewMapObjects()
+    {
+        if (mapObjects != null)
+        {
+            DestroyImmediate(mapObjects);
+        }
+        mapObjects = new GameObject("Map");
     }
 
     private ObjectData CreateSkyBox()
@@ -157,31 +164,30 @@ public class EditorMapLoader : MonoBehaviour
     [ContextMenu("Save")]
     public void Save()
     {
-        Mpd map = new Mpd();
-        map.scripts = scripts;
-        List<Mpd_Piece> mpdPieces = new List<Mpd_Piece>();
-        for (int i = 0; i < pieces.Length; i++)
-        {
-            Mpd_Piece mpdPiece = new Mpd_Piece();
-            if (pieces[i].visualMesh != null)
-            {
-                mpdPiece.visualMesh = pieces[i].visualMesh.name;
-                if (pieces[i].colliderMesh != null)
-                    mpdPiece.collisionMesh = pieces[i].colliderMesh.name;
-                mpdPiece.scriptText = pieces[i].script;
-            }
-            mpdPieces.Add(mpdPiece);
-        }
-        map.Pieces = mpdPieces;
-        Transform[] transforms = { HitArea.transform, SkyMap.transform };
-        for (int i = 0; i < transforms.Length; i++)
-        {
-            Matrix4x4 m = Matrix4x4.TRS(transforms[i].position, transforms[i].rotation, transforms[i].localScale);
-            ObjectData od = transforms[i].GetComponent<ObjectData>();
-            if (od != null)
-                map.addWorldObject(transforms[i].position, m, od.ModelID, od.scriptID);
-        }
-        map.save(Path.Combine(mapPath, "map.mpd"));
+        //map.scripts = scripts;
+        //List<Mpd_Piece> mpdPieces = new List<Mpd_Piece>();
+        //for (int i = 0; i < pieces.Length; i++)
+        //{
+        //    Mpd_Piece mpdPiece = new Mpd_Piece();
+        //    if (pieces[i].visualMesh != null)
+        //    {
+        //        mpdPiece.visualMesh = pieces[i].visualMesh.name;
+        //        if (pieces[i].colliderMesh != null)
+        //            mpdPiece.collisionMesh = pieces[i].colliderMesh.name;
+        //        mpdPiece.scriptText = pieces[i].script;
+        //    }
+        //    mpdPieces.Add(mpdPiece);
+        //}
+        //map.Pieces = mpdPieces;
+        //Transform[] transforms = { HitArea.transform, SkyMap.transform };
+        //for (int i = 0; i < transforms.Length; i++)
+        //{
+        //    Matrix4x4 m = Matrix4x4.TRS(transforms[i].position, transforms[i].rotation, transforms[i].localScale);
+        //    ObjectData od = transforms[i].GetComponent<ObjectData>();
+        //    if (od != null)
+        //        map.addWorldObject(m, od.ModelID, od.scriptID);
+        //}
+        map.Save(Path.Combine(mapPath, "map.mpd"));
     }
 
     public void UpdatePiece(int index, string visualMesh, string collisionMesh, string scriptText)

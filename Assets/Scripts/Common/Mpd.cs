@@ -32,16 +32,19 @@ public class Mpd:MonoBehaviour
     public List<Mpd_Piece> Pieces;
     public Mpd_WorldGrid[,] WorldGrid;
     public List<string> scripts;
-    public int gridSize = 0; //grid size
+    public float gridSize = 0; //grid size
+    public int x;
+    public int y;
+    public int worldParts;
 
-    public bool load(string filename)
+    public bool Load(string filename)
     {
         scripts = new List<string>();
         BinaryReader br = new BinaryReader(File.Open(filename, FileMode.Open, FileAccess.Read));
         string signature = new string(br.ReadChars(3));
         if (signature == "MPD")
         {
-            int WorldParts = br.ReadInt32();
+            worldParts = br.ReadInt32();
             int PiecesCount = br.ReadInt16();
             Debug.Log(PiecesCount);
             Pieces = new List<Mpd_Piece>();
@@ -77,10 +80,10 @@ public class Mpd:MonoBehaviour
             }
 
             Debug.Log(br.BaseStream.Position.ToString());
-            int x = br.ReadInt16();
-            int y = br.ReadInt16();
+            x = br.ReadInt16();
+            y = br.ReadInt16();
             WorldGrid = new Mpd_WorldGrid[100, 100];
-            gridSize = br.ReadInt32();
+            gridSize = (float)br.ReadSingle();
 
             for (int i = 0; i < x; i++)
             {
@@ -130,7 +133,20 @@ public class Mpd:MonoBehaviour
         return false;
     }
 
-    public void save(string filename)
+    public void Save(string filename)
+    {
+
+        WorldGrid = new Mpd_WorldGrid[100, 100];
+        var objectes = transform.GetComponentsInChildren<ObjectData>();
+        foreach (var obj in objectes)
+        {
+            addWorldObject(obj.transform.localToWorldMatrix, obj.ModelID, obj.scriptID);
+        }
+        WirteToFile(filename);
+        Debug.Log($"Saved To {filename}");
+    }
+
+    public void WirteToFile(string filename)
     {
         BinaryWriter bw = new BinaryWriter(File.Open(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite));
         bw.Write(ASCIIEncoding.ASCII.GetBytes("MPD"));
@@ -227,14 +243,15 @@ public class Mpd:MonoBehaviour
         bw.Close();
     }
 
-    public void addWorldObject(Vector3 position, Matrix4x4 matrix, int pieceID, int scriptID)
+    public void addWorldObject(Matrix4x4 trs, int pieceID, int scriptID)
     {
+        var position = trs.GetColumn(3);
 
         int x = Mathf.FloorToInt(position.x / gridSize);
         int y = Mathf.FloorToInt(position.z / gridSize);
 
         Mpd_Object mo;
-        mo.transform = matrix;
+        mo.transform = trs;
         mo.pieceID = (short)pieceID;
         mo.scriptIndex = scriptID;
 
