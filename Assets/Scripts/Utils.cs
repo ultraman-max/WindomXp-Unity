@@ -3,6 +3,18 @@ using System.Collections;
 
 public static class Utils
 {
+    public static string TrimEnd(string str)
+    {
+        for (int i = 0; i < str.Length; i++)
+        {
+            if (str[i] == '\0')
+            {
+                return str.Substring(0, i);
+            }
+        }
+        return str;
+    }
+
     public static Quaternion GetRotation(Matrix4x4 matrix)
     {
         return matrix.rotation;

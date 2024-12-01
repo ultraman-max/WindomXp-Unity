@@ -44,7 +44,7 @@ public struct Hod2v0
                 Hod2v0_Part nPart = new Hod2v0_Part();
                 nPart.treeDepth = br.ReadInt32();
                 nPart.childCount = br.ReadInt32();
-                nPart.name = ASCIIEncoding.ASCII.GetString(br.ReadBytes(256)).TrimEnd('\0');
+                nPart.name = Utils.TrimEnd(ASCIIEncoding.ASCII.GetString(br.ReadBytes(256)));
                 nPart.rotation = new Quaternion();
                 nPart.rotation.x = br.ReadSingle();
                 nPart.rotation.y = br.ReadSingle();

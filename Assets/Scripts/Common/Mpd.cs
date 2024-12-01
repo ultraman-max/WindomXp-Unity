@@ -148,6 +148,8 @@ public class Mpd:MonoBehaviour
 
     public void WirteToFile(string filename)
     {
+        if (File.Exists(filename))
+            File.Delete(filename);
         BinaryWriter bw = new BinaryWriter(File.Open(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite));
         bw.Write(ASCIIEncoding.ASCII.GetBytes("MPD"));
         bw.Write(20000);

@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 [CreateAssetMenu(fileName = "WindomAni2", menuName = "ScriptableObjects/WindomAni2", order = 1)]
 public class WindomAni2 : ScriptableObject

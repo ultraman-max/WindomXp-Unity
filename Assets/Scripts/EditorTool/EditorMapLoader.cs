@@ -164,29 +164,6 @@ public class EditorMapLoader : MonoBehaviour
     [ContextMenu("Save")]
     public void Save()
     {
-        //map.scripts = scripts;
-        //List<Mpd_Piece> mpdPieces = new List<Mpd_Piece>();
-        //for (int i = 0; i < pieces.Length; i++)
-        //{
-        //    Mpd_Piece mpdPiece = new Mpd_Piece();
-        //    if (pieces[i].visualMesh != null)
-        //    {
-        //        mpdPiece.visualMesh = pieces[i].visualMesh.name;
-        //        if (pieces[i].colliderMesh != null)
-        //            mpdPiece.collisionMesh = pieces[i].colliderMesh.name;
-        //        mpdPiece.scriptText = pieces[i].script;
-        //    }
-        //    mpdPieces.Add(mpdPiece);
-        //}
-        //map.Pieces = mpdPieces;
-        //Transform[] transforms = { HitArea.transform, SkyMap.transform };
-        //for (int i = 0; i < transforms.Length; i++)
-        //{
-        //    Matrix4x4 m = Matrix4x4.TRS(transforms[i].position, transforms[i].rotation, transforms[i].localScale);
-        //    ObjectData od = transforms[i].GetComponent<ObjectData>();
-        //    if (od != null)
-        //        map.addWorldObject(m, od.ModelID, od.scriptID);
-        //}
         map.Save(Path.Combine(mapPath, "map.mpd"));
     }
 
