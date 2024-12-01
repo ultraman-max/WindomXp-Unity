@@ -167,9 +167,94 @@ public struct AniFrames
     }
 
 #if UNITY_EDITOR
+
+    public void BuildAllFrames(string[] partPaths, string savePath)
+    {
+        for (int i = 0; i < frames.Count; i++)
+        {
+            BuildFrame(partPaths, savePath, i);
+        }
+    }
+
+    public void BuildFrame(string[] partPaths, string savePath,int frameIdx)
+    {
+        if (frames.Count == 0) return;
+        if (!Directory.Exists(savePath))
+        {
+            Directory.CreateDirectory(savePath);
+        }
+        AnimationClip nClip = new AnimationClip();
+        nClip.name = name;
+
+        for (int i = 0; i < partPaths.Length; i++)
+        {
+            AnimationCurve RotX = new AnimationCurve();
+            AnimationCurve RotY = new AnimationCurve();
+            AnimationCurve RotZ = new AnimationCurve();
+            AnimationCurve RotW = new AnimationCurve();
+
+            AnimationCurve ScaleX = new AnimationCurve();
+            AnimationCurve ScaleY = new AnimationCurve();
+            AnimationCurve ScaleZ = new AnimationCurve();
+
+            AnimationCurve PosX = new AnimationCurve();
+            AnimationCurve PosY = new AnimationCurve();
+            AnimationCurve PosZ = new AnimationCurve();
+
+
+            var curFrameAni = frames[frameIdx].parts[i];
+
+            RotX.AddKey(0, curFrameAni.rotation.x);
+            RotY.AddKey(0, curFrameAni.rotation.y);
+            RotZ.AddKey(0, curFrameAni.rotation.z);
+            RotW.AddKey(0, curFrameAni.rotation.w);
+
+            ScaleX.AddKey(0, curFrameAni.scale.x);
+            ScaleY.AddKey(0, curFrameAni.scale.y);
+            ScaleZ.AddKey(0, curFrameAni.scale.z);
+
+            PosX.AddKey(0, curFrameAni.position.x);
+            PosY.AddKey(0, curFrameAni.position.y);
+            PosZ.AddKey(0, curFrameAni.position.z);
+
+            //load curves into clip
+            nClip.SetCurve(partPaths[i], typeof(Transform), "localRotation.x", RotX);
+            nClip.SetCurve(partPaths[i], typeof(Transform), "localRotation.y", RotY);
+            nClip.SetCurve(partPaths[i], typeof(Transform), "localRotation.z", RotZ);
+            nClip.SetCurve(partPaths[i], typeof(Transform), "localRotation.w", RotW);
+
+            nClip.SetCurve(partPaths[i], typeof(Transform), "localScale.x", ScaleX);
+            nClip.SetCurve(partPaths[i], typeof(Transform), "localScale.y", ScaleY);
+            nClip.SetCurve(partPaths[i], typeof(Transform), "localScale.z", ScaleZ);
+
+            nClip.SetCurve(partPaths[i], typeof(Transform), "localPosition.x", PosX);
+            nClip.SetCurve(partPaths[i], typeof(Transform), "localPosition.y", PosY);
+            nClip.SetCurve(partPaths[i], typeof(Transform), "localPosition.z", PosZ);
+        }
+
+        if (nClip.name != "")
+        {
+            try
+            {
+
+                AssetDatabase.CreateAsset(nClip, Path.Combine(savePath, nClip.name.Replace(':', '_') + $"_{frameIdx}.anim"));
+                AssetDatabase.SaveAssets();
+            }
+            catch
+            {
+                Debug.Log("Error in Creating Clip");
+            }
+        }
+    }
+
     public void BuildAnimations(string[] partPaths, string savePath = "Assets/")
     {
         if( frames.Count==0)return;
+        if (!Directory.Exists(savePath))
+        {
+            Directory.CreateDirectory(savePath);
+        }
+
         AnimationClip nClip = new AnimationClip();
         nClip.name = name;
 
@@ -191,7 +276,6 @@ public struct AniFrames
             AnimationCurve PosX = new AnimationCurve();
             AnimationCurve PosY = new AnimationCurve();
             AnimationCurve PosZ = new AnimationCurve();
-
 
             var curFrameAni = frames[0].parts[i];
 
@@ -251,18 +335,19 @@ public struct AniFrames
 
                         float keyFrameTime = gameFrameCountCurAniFrame / fps;
 
-                        RotX.AddKey(keyFrameTime, frames[k].parts[i].rotation.x);
-                        RotY.AddKey(keyFrameTime, frames[k].parts[i].rotation.y);
-                        RotZ.AddKey(keyFrameTime, frames[k].parts[i].rotation.z);
-                        RotW.AddKey(keyFrameTime, frames[k].parts[i].rotation.w);
+                        Hod2v1_Part framePart = frames[k].parts[i];
+                        RotX.AddKey(keyFrameTime, framePart.rotation.x);
+                        RotY.AddKey(keyFrameTime, framePart.rotation.y);
+                        RotZ.AddKey(keyFrameTime, framePart.rotation.z);
+                        RotW.AddKey(keyFrameTime, framePart.rotation.w);
 
-                        ScaleX.AddKey(keyFrameTime, frames[k].parts[i].scale.x);
-                        ScaleY.AddKey(keyFrameTime, frames[k].parts[i].scale.y);
-                        ScaleZ.AddKey(keyFrameTime, frames[k].parts[i].scale.z);
+                        ScaleX.AddKey(keyFrameTime, framePart.scale.x);
+                        ScaleY.AddKey(keyFrameTime, framePart.scale.y);
+                        ScaleZ.AddKey(keyFrameTime, framePart.scale.z);
 
-                        PosX.AddKey(keyFrameTime, frames[k].parts[i].position.x);
-                        PosY.AddKey(keyFrameTime, frames[k].parts[i].position.y);
-                        PosZ.AddKey(keyFrameTime, frames[k].parts[i].position.z);
+                        PosX.AddKey(keyFrameTime, framePart.position.x);
+                        PosY.AddKey(keyFrameTime, framePart.position.y);
+                        PosZ.AddKey(keyFrameTime, framePart.position.z);
                     }
 
                     aniFrameSoFar += aniFrameCurSpt;

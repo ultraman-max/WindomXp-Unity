@@ -8,6 +8,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WindomAni2", menuName = "ScriptableObjects/WindomAni2", order = 1)]
 public class WindomAni2 : ScriptableObject
 {
+    private const string DebugAniPath = "Assets/Test/";
     public string fileName;
     public Hod2v0 structure;
     public List<AniFrames> animations;
@@ -60,7 +61,8 @@ public class WindomAni2 : ScriptableObject
         {
             if (item.outputAnim)
             {
-                item.BuildAnimations(path);
+                item.BuildAnimations(path, DebugAniPath);
+                item.BuildAllFrames(path,DebugAniPath);
             }
         }
     }
