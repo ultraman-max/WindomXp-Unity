@@ -11,7 +11,7 @@ public class WindomAni2 : ScriptableObject
     private const string DebugAniPath = "Assets/Test/";
     public string fileName;
     public Hod2v0 structure;
-    public List<AniFrames> animations;
+    public List<WindomAniClip> animations;
     public int selectedAnimation;
 
     [ContextMenu("LoadFile")]
@@ -61,7 +61,7 @@ public class WindomAni2 : ScriptableObject
         {
             if (item.outputAnim)
             {
-                item.BuildAnimations(path, DebugAniPath);
+                item.BuildAnimations2(path, DebugAniPath,true);
                 item.BuildAllFrames(path,DebugAniPath);
             }
         }
@@ -85,7 +85,7 @@ public class WindomAni2 : ScriptableObject
         string signature = new string(br.ReadChars(3));
         if (signature == "AN2")
         {
-            animations = new List<AniFrames>();
+            animations = new List<WindomAniClip>();
             //Encoding ShiftJis = Encoding.GetEncoding(932);
             string robohod = USEncoder.ToEncoding.ToUnicode(br.ReadBytes(256)).TrimEnd('\0');
             robohod = robohod.Replace("\0", "$$");
@@ -95,15 +95,16 @@ public class WindomAni2 : ScriptableObject
             int aCount = br.ReadInt32();
             for (int i = 0; i < aCount; i++)
             {
-                AniFrames aData = new AniFrames();
+                WindomAniClip aData = new WindomAniClip();
                 aData.loadFromAni(ref br, ref structure);
+                aData.nameWithNo = $"{i}_{aData.name}";
                 animations.Add(aData);
             }
         }
         else if (signature == "ANI")
         {
             StreamWriter debug = new StreamWriter("debug.txt");
-            animations = new List<AniFrames>();
+            animations = new List<WindomAniClip>();
             //Encoding ShiftJis = Encoding.GetEncoding(932);
             string robohod = USEncoder.ToEncoding.ToUnicode(br.ReadBytes(256)).TrimEnd('\0');
             Hod1 oldStructure = new Hod1(robohod);
@@ -113,19 +114,20 @@ public class WindomAni2 : ScriptableObject
             debug.Close();
             for (int i = 0; i < 200; i++)
             {
-                AniFrames aData = new AniFrames();
+                WindomAniClip aData = new WindomAniClip();
                 aData.loadFromAniOld(ref br);
+                aData.nameWithNo = $"{i}_{aData.name}";
                 animations.Add(aData);
             }
         }
         else if (signature == "HOD")
         {
             br.BaseStream.Seek(0, SeekOrigin.Begin);
-            animations = new List<AniFrames>();
+            animations = new List<WindomAniClip>();
             Hod1 hodfile = new Hod1("HOD1 FILE");
             hodfile.loadFromBinary(ref br);
             structure = hodfile.convertToHod2v0();
-            AniFrames aData = new AniFrames();
+            WindomAniClip aData = new WindomAniClip();
             aData.frames = new List<Hod2v1>
             {
                 hodfile.convertToHod2v1()

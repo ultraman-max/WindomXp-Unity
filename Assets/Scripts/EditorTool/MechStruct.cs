@@ -91,7 +91,9 @@ public class MechStruct : MonoBehaviour
 
         BuildStructure(aniFile.structure);
         OutputStructurePrefab();
+#if UNITY_EDITOR
         BuildAnimations();
+#endif
     }
 
     public void BuildStructure(Hod2v0 Robo)
@@ -237,14 +239,14 @@ public class MechStruct : MonoBehaviour
 
     }
 
-
+#if UNITY_EDITOR
     void BuildAnimations()
     {
         BuildPaths();
 
         aniFile.ExportAnim(GetAniFolder());
     }
-
+#endif
 
     void ImportModelEncrypted(GameObject GO, string file)
     {
